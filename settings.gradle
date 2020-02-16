@@ -1,0 +1,2 @@
+include ':app', ':ktbaselibrary'
+rootProject.name='ktBaseProject'
