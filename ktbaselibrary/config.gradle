@@ -9,7 +9,8 @@ ext {
 
             glideVersion     : "4.9.0",
             recyclerview     : "1.1.0",
-            eventbus         : "3.1.1"
+            eventbus         : "3.1.1",
+            utilcodeVersion  : "1.20.4"
     ]
     dep = [
             recycleviewV7: "androidx.recyclerview:recyclerview:$depVersion.recyclerview"

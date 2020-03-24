@@ -1,10 +1,15 @@
 package com.tbright.ktbaselibrary.mvp
 
- class BaseModel : IModel {
+import com.tbright.ktbaselibrary.global.GlobalConfig
 
+class BaseModel : IModel {
 
-     override fun onDestroy() {
+    fun <T> create(clazz: Class<T>) {
+        GlobalConfig.httpConfigProxy?.create(clazz)
+    }
 
-     }
+    override fun onDestroy() {
 
- }
+    }
+
+}

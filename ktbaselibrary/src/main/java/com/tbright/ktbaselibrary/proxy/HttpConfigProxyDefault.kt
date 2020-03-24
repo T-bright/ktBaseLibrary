@@ -1,16 +1,25 @@
 package com.tbright.ktbaselibrary.proxy
 
-import com.bumptech.glide.load.HttpException
+import com.blankj.utilcode.util.NetworkUtils
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.tbright.ktbaselibrary.BuildConfig
 import com.tbright.ktbaselibrary.base.BaseResponse
 import com.tbright.ktbaselibrary.event.MessageEvent
+import com.tbright.ktbaselibrary.global.GlobalConfig
+import com.tbright.ktbaselibrary.global.TIME_OUT
+import com.tbright.ktbaselibrary.net.exception.NoNetworkException
 
 import kotlinx.coroutines.Deferred
+import okhttp3.OkHttpClient
 import org.json.JSONException
+import retrofit2.HttpException
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.InterruptedIOException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLHandshakeException
 
 
@@ -29,16 +38,24 @@ const val EVENTCODE_RELOGIN = 998 //需要重新登录
 const val EVENTCODE_RESPONSE_FAIL = 999 //http请求失败
 
 
-class HttpConfigProxyDefault : HttpConfigProxy {
-    override fun getBaseUrl(): Map<String, String> {
-        var urls = linkedMapOf<String, String>()
-        if (BuildConfig.DEBUG) {
-            urls.put("baseUrl", "http://www.baidu.com")
-        } else {
-            urls.put("baseUrl", "http://www.baidu.com")
+class HttpConfigProxyDefault : HttpConfigProxy() {
+
+
+    override var baseUrl: String = ""
+
+
+    override var baseUrls: Map<String, String>
+        set(value) {}
+        get() {
+            var urls = linkedMapOf<String, String>()
+            if (urls.isNotEmpty()) return urls
+            if (BuildConfig.DEBUG) {
+                urls["baseUrl"] = "http://www.baidu.com"
+            } else {
+                urls["baseUrl"] = "http://www.baidu.com"
+            }
+            return urls
         }
-        return urls
-    }
 
     override suspend fun <T> parseResponseData(responseData: Deferred<BaseResponse<T>>): T? {
         try {
@@ -55,8 +72,9 @@ class HttpConfigProxyDefault : HttpConfigProxy {
                 is InterruptedIOException -> errMsg = "连接中断"
                 is SSLHandshakeException -> errMsg = "证书验证失败"
                 is JSONException -> errMsg = "数据解析错误"
+                is NoNetworkException -> errMsg = "无可用网络"
                 is HttpException -> {
-                    when (e.statusCode) {
+                    when (e.code()) {
                         UNAUTHORIZED, FORBIDDEN -> {//这两个一般会要求重新登录
                             MessageEvent(EVENTCODE_RELOGIN, errMsg).send()
                             return null
@@ -70,4 +88,45 @@ class HttpConfigProxyDefault : HttpConfigProxy {
         return null
     }
 
+
+    override fun initRetrofit() {
+        initClient()
+        mRetrofitBuilder = Retrofit.Builder()
+        mRetrofit = mRetrofitBuilder?.run {
+            baseUrl(
+                GlobalConfig.httpConfigProxy?.baseUrl
+                    ?: GlobalConfig.httpConfigProxy?.baseUrls!!.values.first()
+            )
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(CoroutineCallAdapterFactory())
+                .client(mOkHttpClientBuilder!!.build())
+                .build()
+            build()
+        }
+    }
+
+    override fun <T> create(clazz: Class<T>) {
+        mRetrofit?.create(clazz)
+    }
+
+    private fun initClient() {
+        mOkHttpClientBuilder = OkHttpClient.Builder()
+        mOkHttpClientBuilder?.run {
+            connectTimeout(TIME_OUT, TimeUnit.SECONDS)
+            readTimeout(TIME_OUT, TimeUnit.SECONDS)
+            writeTimeout(TIME_OUT, TimeUnit.SECONDS)
+
+            //错误重连
+            retryOnConnectionFailure(true)
+
+            //无网络判断
+            addInterceptor { chain ->
+                val request = chain.request()
+                if (!NetworkUtils.isConnected()) {
+                    throw NoNetworkException()
+                }
+                chain.proceed(request)
+            }
+        }
+    }
 }

@@ -1,7 +1,6 @@
 package com.tbright.ktbaselibrary.global
 
 import android.app.Application
-import android.app.DownloadManager
 import com.tbright.ktbaselibrary.proxy.HttpConfigProxy
 import com.tbright.ktbaselibrary.proxy.HttpConfigProxyDefault
 import com.tbright.ktbaselibrary.proxy.ShowUIProxy
@@ -17,6 +16,6 @@ object GlobalConfig {
         if (httpConfigProxy == null) this.httpConfigProxy = HttpConfigProxyDefault() else this.httpConfigProxy = httpConfigProxy
         if (showUIProxy == null) this.showUIProxy = ShowUIProxyDefault() else this.showUIProxy = showUIProxy
         AppUtils.init(application)
+        httpConfigProxy?.initRetrofit()
     }
-
 }
