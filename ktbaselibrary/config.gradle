@@ -1,0 +1,18 @@
+ext {
+    depVersion = [
+            compileSdkVersion: 29,
+            buildToolsVersion: "29.0.3",
+            minSdkVersion    : 17,
+            targetSdkVersion : 29,
+            versionCode      : 1,
+            versionName      : "1.0.0",
+
+            glideVersion     : "4.9.0",
+            recyclerview     : "1.1.0",
+            eventbus         : "3.1.1"
+    ]
+    dep = [
+            recycleviewV7: "androidx.recyclerview:recyclerview:$depVersion.recyclerview"
+    ]
+
+}
