@@ -1,6 +1,7 @@
 package com.tbright.ktbaselibrary.proxy
 
 import com.blankj.utilcode.util.NetworkUtils
+import com.google.gson.JsonSyntaxException
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.tbright.ktbaselibrary.BuildConfig
 import com.tbright.ktbaselibrary.base.BaseResponse
@@ -8,9 +9,13 @@ import com.tbright.ktbaselibrary.event.MessageEvent
 import com.tbright.ktbaselibrary.global.GlobalConfig
 import com.tbright.ktbaselibrary.global.TIME_OUT
 import com.tbright.ktbaselibrary.net.exception.NoNetworkException
+import com.tbright.ktbaselibrary.net.interceptor.CacheInterceptor
 
 import kotlinx.coroutines.Deferred
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
+import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONException
 import retrofit2.HttpException
 import retrofit2.Retrofit
@@ -37,11 +42,10 @@ const val GATEWAY_TIMEOUT = 504
 const val EVENTCODE_RELOGIN = 998 //需要重新登录
 const val EVENTCODE_RESPONSE_FAIL = 999 //http请求失败
 
-
 class HttpConfigProxyDefault : HttpConfigProxy() {
 
 
-    override var baseUrl: String = ""
+    override var baseUrl: String = "http://61.191.199.181:22003/rest/"
 
 
     override var baseUrls: Map<String, String>
@@ -62,7 +66,7 @@ class HttpConfigProxyDefault : HttpConfigProxy() {
             var response = responseData.await()
             if (response.status == RESPONSE_OK) {
                 return response.data
-            }else{
+            } else {
                 MessageEvent(EVENTCODE_RESPONSE_FAIL, response.message).send()
                 return null
             }
@@ -75,6 +79,7 @@ class HttpConfigProxyDefault : HttpConfigProxy() {
                 is InterruptedIOException -> errMsg = "连接中断"
                 is SSLHandshakeException -> errMsg = "证书验证失败"
                 is JSONException -> errMsg = "数据解析错误"
+                is JsonSyntaxException -> errMsg = "数据解析错误"
                 is NoNetworkException -> errMsg = "无可用网络"
                 is HttpException -> {
                     when (e.code()) {
@@ -111,7 +116,7 @@ class HttpConfigProxyDefault : HttpConfigProxy() {
     private var mRetrofitServices = hashMapOf<String, Any>()
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T> create(clazz: Class<T>) : T {
+    override fun <T> create(clazz: Class<T>): T {
         var key = clazz.canonicalName
         var mRetrofitService = mRetrofitServices[key]
         if (mRetrofitService == null) {
@@ -124,6 +129,12 @@ class HttpConfigProxyDefault : HttpConfigProxy() {
     private fun initClient() {
         mOkHttpClientBuilder = OkHttpClient.Builder()
         mOkHttpClientBuilder?.run {
+            if (GlobalConfig.isDebug) {
+                val loggingInterceptor = HttpLoggingInterceptor()
+                loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+                //设置 Debug Log 模式
+                addInterceptor(loggingInterceptor)
+            }
             connectTimeout(TIME_OUT, TimeUnit.SECONDS)
             readTimeout(TIME_OUT, TimeUnit.SECONDS)
             writeTimeout(TIME_OUT, TimeUnit.SECONDS)
@@ -131,14 +142,8 @@ class HttpConfigProxyDefault : HttpConfigProxy() {
             //错误重连
             retryOnConnectionFailure(true)
 
-            //无网络判断
-            addInterceptor { chain ->
-                val request = chain.request()
-                if (!NetworkUtils.isConnected()) {
-                    throw NoNetworkException()
-                }
-                chain.proceed(request)
-            }
+            addInterceptor(CacheInterceptor())
+
         }
     }
 }

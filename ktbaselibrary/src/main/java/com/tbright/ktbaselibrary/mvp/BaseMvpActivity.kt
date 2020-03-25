@@ -6,7 +6,7 @@ import com.tbright.ktbaselibrary.event.MessageEvent
 import com.tbright.ktbaselibrary.global.GlobalConfig
 import com.tbright.ktbaselibrary.utils.ReflectUtils
 
-abstract class BaseMvpActivity<P : IPresenter> : BaseActivity(),BaseView {
+abstract class BaseMvpActivity<  P : IPresenter> : BaseActivity(),BaseView {
 
     open var mPresenter: P? = null
     override fun onCreate(savedInstanceState: Bundle?) {

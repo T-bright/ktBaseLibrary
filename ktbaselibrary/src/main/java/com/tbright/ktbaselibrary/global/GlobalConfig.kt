@@ -18,6 +18,6 @@ object GlobalConfig {
         if (httpConfigProxy == null) this.httpConfigProxy = HttpConfigProxyDefault() else this.httpConfigProxy = httpConfigProxy
         if (showUIProxy == null) this.showUIProxy = ShowUIProxyDefault() else this.showUIProxy = showUIProxy
         AppUtils.init(application)
-        httpConfigProxy?.initRetrofit()
+        this.httpConfigProxy?.initRetrofit()
     }
 }

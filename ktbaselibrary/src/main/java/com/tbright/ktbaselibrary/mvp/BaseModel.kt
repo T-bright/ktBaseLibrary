@@ -1,13 +1,14 @@
 package com.tbright.ktbaselibrary.mvp
 
-import com.tbright.ktbaselibrary.global.GlobalConfig
-import com.tbright.ktbaselibrary.net.ApiService
-import java.lang.NullPointerException
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 
-class BaseModel : IModel {
+abstract class BaseModel : IModel {
+
+    protected open var mainScope = MainScope()
 
     override fun onDestroy() {
-
+        mainScope.cancel()
     }
 
 }
