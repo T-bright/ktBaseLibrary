@@ -5,10 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
     <Button
-        android:id="@+id/btHttp"
-        android:text="请求网络"
+        android:id="@+id/btLogin"
+        android:text="登录获取token"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btUser"
+        android:text="获取user信息"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <TextView

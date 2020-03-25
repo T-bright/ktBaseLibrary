@@ -1,4 +1,4 @@
-package com.tbright.ktbaseproject.demo
+package com.tbright.ktbaseproject.demo.ui
 
 import com.tbright.ktbaselibrary.mvp.BaseModel
 import com.tbright.ktbaselibrary.mvp.BasePresenter
@@ -8,6 +8,8 @@ interface MainContract {
 
     abstract class MainPresenter : BasePresenter<BaseModel, MainView>(){
         abstract fun login(username : String, password : String)
+
+        abstract fun getUserInfo(userId : String)
     }
 
     interface MainView : BaseView{

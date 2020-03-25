@@ -1,4 +1,4 @@
-package com.tbright.ktbaseproject.demo
+package com.tbright.ktbaseproject.demo.bean
 
 class Token {
     var expires_in: String? = null
