@@ -49,7 +49,7 @@ class HttpConfigProxyDefault : HttpConfigProxy() {
         get() {
             var urls = linkedMapOf<String, String>()
             if (urls.isNotEmpty()) return urls
-            if (BuildConfig.DEBUG) {
+            if (GlobalConfig.isDebug) {
                 urls["baseUrl"] = "http://www.baidu.com"
             } else {
                 urls["baseUrl"] = "http://www.baidu.com"
@@ -62,6 +62,9 @@ class HttpConfigProxyDefault : HttpConfigProxy() {
             var response = responseData.await()
             if (response.status == RESPONSE_OK) {
                 return response.data
+            }else{
+                MessageEvent(EVENTCODE_RESPONSE_FAIL, response.message).send()
+                return null
             }
         } catch (e: Throwable) {
             var errMsg = "网络异常"
@@ -105,8 +108,17 @@ class HttpConfigProxyDefault : HttpConfigProxy() {
         }
     }
 
-    override fun <T> create(clazz: Class<T>) {
-        mRetrofit?.create(clazz)
+    private var mRetrofitServices = hashMapOf<String, Any>()
+
+    @Suppress("UNCHECKED_CAST")
+    override fun <T> create(clazz: Class<T>) : T {
+        var key = clazz.canonicalName
+        var mRetrofitService = mRetrofitServices[key]
+        if (mRetrofitService == null) {
+            mRetrofitService = mRetrofit!!.create(clazz)
+            mRetrofitServices[key!!] = mRetrofitService!!
+        }
+        return mRetrofitService as T
     }
 
     private fun initClient() {

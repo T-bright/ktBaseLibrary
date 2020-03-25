@@ -27,6 +27,6 @@ abstract class HttpConfigProxy {
     //初始化http
     abstract fun initRetrofit()
 
-    abstract fun <T> create(clazz: Class<T>)
+    abstract fun <T> create(clazz: Class<T>) : T
 }
 
