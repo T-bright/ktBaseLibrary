@@ -10,6 +10,9 @@ interface MainContract {
         abstract fun login(username : String, password : String)
 
         abstract fun getUserInfo(userId : String)
+
+        //并行请求
+        abstract fun parallelRequest (username : String, password : String)
     }
 
     interface MainView : BaseView{

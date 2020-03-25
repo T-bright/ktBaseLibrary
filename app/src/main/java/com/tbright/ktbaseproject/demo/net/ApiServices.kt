@@ -1,6 +1,7 @@
 package com.tbright.ktbaseproject.demo.net
 
 import com.tbright.ktbaselibrary.base.BaseResponse
+import com.tbright.ktbaseproject.demo.bean.Dict
 import com.tbright.ktbaseproject.demo.bean.Token
 import com.tbright.ktbaseproject.demo.bean.User
 import kotlinx.coroutines.Deferred
@@ -16,4 +17,7 @@ interface ApiServices {
     //获取用户信息
     @GET("main/magic/user/v1/")
     fun getUserInfo(@Query("userId") userId: String): Deferred<BaseResponse<User>>
+
+    @GET("main/magic/common/v1/dict/")
+    fun getDicList(): Deferred<BaseResponse<List<Dict>?>>
 }

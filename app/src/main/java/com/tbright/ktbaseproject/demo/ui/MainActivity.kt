@@ -25,6 +25,9 @@ class MainActivity : BaseMvpActivity<MainPresenter>(),
         btUser.setOnClickListener {
             mPresenter?.getUserInfo(GlobalConstants.token?.userId?:"")
         }
+        btParallelRequest.setOnClickListener {
+            mPresenter?.parallelRequest("x1", "123456")
+        }
     }
 
     override fun loginResult(result: String) {

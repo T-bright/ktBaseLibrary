@@ -16,6 +16,11 @@
         android:text="获取user信息"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btParallelRequest"
+        android:text="获取user信息"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/tvShow"
         android:gravity="center"
