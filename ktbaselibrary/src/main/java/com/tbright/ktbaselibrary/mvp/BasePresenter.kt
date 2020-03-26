@@ -1,9 +1,7 @@
 package com.tbright.ktbaselibrary.mvp
 
-import com.tbright.ktbaselibrary.global.GlobalConfig
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
-import java.lang.NullPointerException
 
 
 abstract class BasePresenter<M : IModel, V : BaseView>: IPresenter {

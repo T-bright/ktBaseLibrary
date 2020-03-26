@@ -1,13 +1,11 @@
 package com.tbright.ktbaseproject.demo.ui
 
-import android.os.SystemClock
-import android.util.Log
 import com.tbright.ktbaselibrary.extension.create
 import com.tbright.ktbaselibrary.extension.response
 import com.tbright.ktbaselibrary.mvp.BaseModel
-import com.tbright.ktbaseproject.demo.net.ApiServices
+import com.tbright.ktbaseproject.demo.net.api.ApiServices
 import com.tbright.ktbaseproject.demo.GlobalConstants
-import kotlinx.coroutines.Dispatchers
+import com.tbright.ktbaseproject.demo.net.api.GankServices
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -59,6 +57,18 @@ class MainPresenter : MainContract.MainPresenter() {
             mView?.loginResult(result)
 
             mView?.hideLoading()
+        }
+    }
+
+    override fun changeBaseUrl() {
+        mView?.showLoading()
+        mainScope.launch {
+            var gank = create(GankServices::class.java).getGanHuo().response()
+            gank?.let {
+                mView?.loginResult(it.first().title!!)
+
+                mView?.hideLoading()
+            }
         }
     }
 

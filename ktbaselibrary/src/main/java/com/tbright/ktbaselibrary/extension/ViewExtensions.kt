@@ -89,9 +89,9 @@ var View.isGone: Boolean
     }
     set(value) {
         if (value) {
-            visibility = View.VISIBLE
-        } else {
             visibility = View.GONE
+        } else {
+            visibility = View.VISIBLE
         }
     }
 

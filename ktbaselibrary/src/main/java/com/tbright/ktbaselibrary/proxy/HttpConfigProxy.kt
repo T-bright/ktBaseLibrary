@@ -2,18 +2,10 @@ package com.tbright.ktbaselibrary.proxy
 
 import com.tbright.ktbaselibrary.base.BaseResponse
 import kotlinx.coroutines.Deferred
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import kotlin.reflect.KClass
+
 
 //Http的BaseUrl和返回的数据解析的配置
 abstract class HttpConfigProxy {
-
-    var mRetrofit: Retrofit? = null
-
-    var mRetrofitBuilder: Retrofit.Builder? = null
-
-    var mOkHttpClientBuilder: OkHttpClient.Builder? = null
 
     //设置baseUrl
     abstract var baseUrl: String

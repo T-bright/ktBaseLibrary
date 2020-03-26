@@ -13,6 +13,9 @@ interface MainContract {
 
         //并行请求
         abstract fun parallelRequest (username : String, password : String)
+
+        //并行请求
+        abstract fun changeBaseUrl ()
     }
 
     interface MainView : BaseView{

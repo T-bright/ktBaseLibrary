@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:fitsSystemWindows="true"
     tools:context=".ui.MainActivity">
     <Button
         android:id="@+id/btLogin"
@@ -19,6 +20,11 @@
     <Button
         android:id="@+id/btParallelRequest"
         android:text="获取user信息"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btChange"
+        android:text="更换baseUrl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <TextView

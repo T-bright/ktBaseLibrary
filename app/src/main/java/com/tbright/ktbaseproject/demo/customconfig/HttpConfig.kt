@@ -9,6 +9,7 @@ import com.tbright.ktbaselibrary.global.TIME_OUT
 import com.tbright.ktbaselibrary.net.exception.NoNetworkException
 import com.tbright.ktbaselibrary.net.interceptor.CacheInterceptor
 import com.tbright.ktbaselibrary.proxy.HttpConfigProxy
+import com.tbright.ktbaseproject.demo.net.interceptor.MultiUrlInterceptor
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -38,20 +39,34 @@ const val GATEWAY_TIMEOUT = 504
 const val EVENTCODE_RELOGIN = 998 //需要重新登录
 const val EVENTCODE_RESPONSE_FAIL = 999 //http请求失败
 
+
+const val BASE_URL = "base_Url"
+const val mBaseUrl = "http://61.191.199.181:22003/rest/"
+
+const val GANK_URL = "gank_Url"
+const val mGankUrl = "https://gank.io/"
+
 class HttpConfig : HttpConfigProxy() {
 
-    override var baseUrl: String = "http://61.191.199.181:22003/rest/"
+    private var mRetrofit: Retrofit? = null
 
+    private var mRetrofitBuilder: Retrofit.Builder? = null
+
+    private var mOkHttpClientBuilder: OkHttpClient.Builder? = null
+
+    override var baseUrl: String = mBaseUrl
 
     override var baseUrls: Map<String, String>
         set(value) {}
         get() {
             var urls = linkedMapOf<String, String>()
             if (urls.isNotEmpty()) return urls
-            if (GlobalConfig.isDebug) {
-                urls["baseUrl"] = "http://www.baidu.com"
+            if (GlobalConfig.isDebug) {//可以在这里动态切换服务
+                urls[BASE_URL] = mBaseUrl
+                urls[GANK_URL] = mGankUrl
             } else {
-                urls["baseUrl"] = "http://www.baidu.com"
+                urls[BASE_URL] = mBaseUrl
+                urls[GANK_URL] = mGankUrl
             }
             return urls
         }
@@ -59,13 +74,10 @@ class HttpConfig : HttpConfigProxy() {
     override suspend fun <T> parseResponseData(responseData: Deferred<BaseResponse<T>>): T? {
         try {
             var response = responseData.await()
-            if (response.status == com.tbright.ktbaselibrary.proxy.RESPONSE_OK) {
-                return response.data
+            if (response.isResponseSuccess()) {
+                return response.getResponseData()
             } else {
-                MessageEvent(
-                    com.tbright.ktbaselibrary.proxy.EVENTCODE_RESPONSE_FAIL,
-                    response.message
-                ).send()
+                MessageEvent( EVENTCODE_RESPONSE_FAIL,response.getResponseMessage()).send()
                 return null
             }
         } catch (e: Throwable) {
@@ -81,18 +93,15 @@ class HttpConfig : HttpConfigProxy() {
                 is NoNetworkException -> errMsg = "无可用网络"
                 is HttpException -> {
                     when (e.code()) {
-                        com.tbright.ktbaselibrary.proxy.UNAUTHORIZED, com.tbright.ktbaselibrary.proxy.FORBIDDEN -> {//这两个一般会要求重新登录
-                            MessageEvent(
-                                com.tbright.ktbaselibrary.proxy.EVENTCODE_RELOGIN,
-                                errMsg
-                            ).send()
+                        UNAUTHORIZED, FORBIDDEN -> {//这两个一般会要求重新登录
+                            MessageEvent(EVENTCODE_RELOGIN,errMsg).send()
                             return null
                         }
                     }
                 }
                 else -> errMsg = e.message.toString()
             }
-            MessageEvent(com.tbright.ktbaselibrary.proxy.EVENTCODE_RESPONSE_FAIL, errMsg).send()
+            MessageEvent(EVENTCODE_RESPONSE_FAIL, errMsg).send()
         }
         return null
     }
@@ -102,10 +111,7 @@ class HttpConfig : HttpConfigProxy() {
         initClient()
         mRetrofitBuilder = Retrofit.Builder()
         mRetrofit = mRetrofitBuilder?.run {
-            baseUrl(
-                GlobalConfig.httpConfigProxy?.baseUrl
-                    ?: GlobalConfig.httpConfigProxy?.baseUrls!!.values.first()
-            )
+            baseUrl(GlobalConfig.httpConfigProxy?.baseUrl ?: GlobalConfig.httpConfigProxy?.baseUrls!!.values.first())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .client(mOkHttpClientBuilder!!.build())
@@ -144,6 +150,8 @@ class HttpConfig : HttpConfigProxy() {
             retryOnConnectionFailure(true)
             addInterceptor(CacheInterceptor())
             addInterceptor(HeaderInterceptor())
+            addInterceptor(MultiUrlInterceptor())
+
         }
     }
 }
