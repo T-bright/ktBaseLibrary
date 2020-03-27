@@ -1,9 +1,9 @@
 package com.tbright.ktbaseproject.demo.net.api
 
+import com.tbright.ktbaselibrary.net.interceptor.MULTI_URL_HEADER
 import com.tbright.ktbaseproject.demo.bean.Gank
 import com.tbright.ktbaseproject.demo.customconfig.GANK_URL
-import com.tbright.ktbaseproject.demo.net.BaseGankResponse
-import com.tbright.ktbaseproject.demo.net.interceptor.MULTI_URL_HEADER
+import com.tbright.ktbaseproject.demo.net.response.BaseGankResponse
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Headers

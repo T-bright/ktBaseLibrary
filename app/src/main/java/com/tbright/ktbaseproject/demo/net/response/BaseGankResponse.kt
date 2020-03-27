@@ -1,4 +1,4 @@
-package com.tbright.ktbaseproject.demo.net
+package com.tbright.ktbaseproject.demo.net.response
 
 import com.tbright.ktbaselibrary.base.BaseResponse
 

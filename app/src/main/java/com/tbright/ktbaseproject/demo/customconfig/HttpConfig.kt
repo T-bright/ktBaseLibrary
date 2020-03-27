@@ -8,8 +8,8 @@ import com.tbright.ktbaselibrary.global.GlobalConfig
 import com.tbright.ktbaselibrary.global.TIME_OUT
 import com.tbright.ktbaselibrary.net.exception.NoNetworkException
 import com.tbright.ktbaselibrary.net.interceptor.CacheInterceptor
+import com.tbright.ktbaselibrary.net.interceptor.MultiUrlInterceptor
 import com.tbright.ktbaselibrary.proxy.HttpConfigProxy
-import com.tbright.ktbaseproject.demo.net.interceptor.MultiUrlInterceptor
 import kotlinx.coroutines.Deferred
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -21,6 +21,7 @@ import java.io.InterruptedIOException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import java.util.HashMap
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLHandshakeException
 
@@ -41,7 +42,7 @@ const val EVENTCODE_RESPONSE_FAIL = 999 //http请求失败
 
 
 const val BASE_URL = "base_Url"
-const val mBaseUrl = "http://61.191.199.181:22003/rest/"
+const val mBaseUrl = "http://61.191.199.181:22003/"
 
 const val GANK_URL = "gank_Url"
 const val mGankUrl = "https://gank.io/"
@@ -54,6 +55,7 @@ class HttpConfig : HttpConfigProxy() {
 
     private var mOkHttpClientBuilder: OkHttpClient.Builder? = null
 
+    //
     override var baseUrl: String = mBaseUrl
 
     override var baseUrls: Map<String, String>
@@ -111,7 +113,7 @@ class HttpConfig : HttpConfigProxy() {
         initClient()
         mRetrofitBuilder = Retrofit.Builder()
         mRetrofit = mRetrofitBuilder?.run {
-            baseUrl(GlobalConfig.httpConfigProxy?.baseUrl ?: GlobalConfig.httpConfigProxy?.baseUrls!!.values.first())
+            baseUrl(GlobalConfig.httpConfigProxy?.baseUrl ?: GlobalConfig.httpConfigProxy?.baseUrls!!.values.first())//如果项目就一个域名，可以直接使用baseUrl，baseUrls可以不用管
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .client(mOkHttpClientBuilder!!.build())
