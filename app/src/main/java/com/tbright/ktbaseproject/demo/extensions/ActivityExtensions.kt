@@ -1,40 +1,37 @@
 package com.tbright.ktbaseproject.demo.extensions
 
 import android.app.Activity
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.DialogFragment
-import com.tbright.ktbaselibrary.widget.LoadingDialogFragment
+import com.tbright.ktbaselibrary.utils.AppUtils
+import com.tbright.ktbaseproject.demo.R
 
 //重新登录
 fun Activity.reLogin() {
 
 }
 
+private val processView = LayoutInflater.from(AppUtils.mApplication).inflate(R.layout.loading_dialog_view, null, false)
 
 fun Activity.showLoadingDialog() {
     if (this is AppCompatActivity) {
-        var dialog = this.supportFragmentManager.findFragmentByTag(LoadingDialogFragment::class.java.name)
-        if (dialog?.isAdded == true) {
-            return
+        var decorView = this.window.decorView as FrameLayout
+        var lp = FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
+        lp.gravity = Gravity.CENTER
+        if (decorView.indexOfChild(processView) != -1) {
+            decorView.removeView(processView)
         }
-        if (dialog == null) {
-            dialog = LoadingDialogFragment()
-            dialog.show(supportFragmentManager, LoadingDialogFragment::class.java.name)
-        } else {
-            if (dialog is DialogFragment) {
-                dialog.show(supportFragmentManager, LoadingDialogFragment::class.java.name)
-            }
-        }
+        decorView.addView(processView, lp)
     }
 }
 
 fun Activity.hideLoadingDialog() {
     if (this is AppCompatActivity) {
-        val dialog = this.supportFragmentManager.findFragmentByTag(LoadingDialogFragment::class.java.name)
-        dialog?.let {
-            if (dialog is DialogFragment) {
-                dialog.dismiss()
-            }
+        var decorView = this.window.decorView as FrameLayout
+        if (decorView.indexOfChild(processView) != -1) {
+            decorView.removeView(processView)
         }
     }
 }

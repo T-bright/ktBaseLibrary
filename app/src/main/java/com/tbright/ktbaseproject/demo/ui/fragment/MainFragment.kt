@@ -1,31 +1,32 @@
-package com.tbright.ktbaseproject.demo.ui
+package com.tbright.ktbaseproject.demo.ui.fragment
 
 import android.Manifest
 import android.os.Bundle
-import com.tbright.ktbaselibrary.mvp.BaseMvpActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.tbright.ktbaselibrary.extension.gone
+import com.tbright.ktbaselibrary.mvp.BaseMvpFragment
 import com.tbright.ktbaselibrary.utils.permission.checkPermissions
 import com.tbright.ktbaseproject.demo.GlobalConstants
 import com.tbright.ktbaseproject.demo.R
-import com.tbright.ktbaseproject.demo.ui.fragment.MyFragmentActivity
+import com.tbright.ktbaseproject.demo.ui.MainContract
+import com.tbright.ktbaseproject.demo.ui.MainPresenter
 import kotlinx.android.synthetic.main.activity_main.*
 
+class MainFragment : BaseMvpFragment<MainPresenter>() , MainContract.MainView {
 
-class MainActivity : BaseMvpActivity<MainPresenter>(),
-    MainContract.MainView {
-
-
-    override fun getLayoutId(): Int {
-        return R.layout.activity_main
+    companion object{
+        fun newInstance() = MainFragment()
     }
 
-    override fun initView(savedInstanceState: Bundle?) {
-
+    override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.activity_main,null)
     }
 
-    override fun initData() {
-        btGotoFragment.setOnClickListener {
-            MyFragmentActivity.start(this)
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        btGotoFragment.gone()
         btLogin.setOnClickListener {
             mPresenter?.login("x12", "123456")
         }
@@ -43,6 +44,7 @@ class MainActivity : BaseMvpActivity<MainPresenter>(),
         }
     }
 
+
     private fun requestPer() {
         checkPermissions(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO) {
             tvShow.text = if (it) "有权限" else "没有权限"
@@ -52,6 +54,4 @@ class MainActivity : BaseMvpActivity<MainPresenter>(),
     override fun loginResult(result: String) {
         tvShow.text = result
     }
-
-
 }

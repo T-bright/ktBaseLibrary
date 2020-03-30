@@ -2,6 +2,8 @@ package com.tbright.ktbaselibrary.mvp
 
 import android.content.Context
 import com.tbright.ktbaselibrary.base.BaseFragment
+import com.tbright.ktbaselibrary.event.MessageEvent
+import com.tbright.ktbaselibrary.global.GlobalConfig
 import com.tbright.ktbaselibrary.utils.ReflectUtils
 
 abstract class BaseMvpFragment<P : IPresenter> : BaseFragment(), BaseView {
@@ -20,15 +22,28 @@ abstract class BaseMvpFragment<P : IPresenter> : BaseFragment(), BaseView {
         mPresenter?.onDestroy()
     }
 
-    override fun showLoading() {
+    override fun <T> onMessageEvent(messageEvent: MessageEvent<T>) {
+        super.onMessageEvent(messageEvent)
+        GlobalConfig.showUIProxy?.parseResponseFailMessage(messageEvent)
+    }
 
+    override fun showLoading() {
+        GlobalConfig.showUIProxy?.showLoading()
     }
 
     override fun hideLoading() {
-
+        GlobalConfig.showUIProxy?.hideLoading()
     }
 
     override fun showError(errorMessage: String) {
+        GlobalConfig.showUIProxy?.showError(errorMessage)
+    }
+
+    override fun finishRefresh() {
+
+    }
+
+    override fun finishLoadMore() {
 
     }
 }

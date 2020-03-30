@@ -8,6 +8,11 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.MainActivity">
     <Button
+        android:id="@+id/btGotoFragment"
+        android:text="Fragment示例代码"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
         android:id="@+id/btLogin"
         android:text="登录获取token"
         android:layout_width="match_parent"
