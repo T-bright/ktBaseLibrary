@@ -26,13 +26,18 @@ object ToastUtils {
     private fun show(text: String, duration: Int) {
         if (toast == null) {
             toast = Toast.makeText(AppUtils.mApplication?.applicationContext, text, duration)
+        }else{
+            toast!!.setText(text)
         }
+
         toast?.show()
     }
 
     private fun show(@StringRes ids: Int, duration: Int) {
         if (toast == null) {
             toast = Toast.makeText(AppUtils.mApplication?.applicationContext, ids, duration)
+        }else{
+            toast!!.setText(ids)
         }
         toast?.show()
     }

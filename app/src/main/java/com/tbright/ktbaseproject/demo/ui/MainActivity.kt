@@ -1,12 +1,9 @@
 package com.tbright.ktbaseproject.demo.ui
 
-import android.graphics.Color
-import android.os.Build
+import android.Manifest
 import android.os.Bundle
-import android.view.View
-import android.view.WindowManager
-import com.blankj.utilcode.util.BarUtils
 import com.tbright.ktbaselibrary.mvp.BaseMvpActivity
+import com.tbright.ktbaselibrary.utils.permission.checkPermissions
 import com.tbright.ktbaseproject.demo.GlobalConstants
 import com.tbright.ktbaseproject.demo.R
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,16 +23,25 @@ class MainActivity : BaseMvpActivity<MainPresenter>(),
 
     override fun initData() {
         btLogin.setOnClickListener {
-            mPresenter?.login("x1", "123456")
+            mPresenter?.login("x12", "123456")
         }
         btUser.setOnClickListener {
-            mPresenter?.getUserInfo(GlobalConstants.token?.userId?:"")
+            mPresenter?.getUserInfo(GlobalConstants.token?.userId ?: "")
         }
         btParallelRequest.setOnClickListener {
             mPresenter?.parallelRequest("x1", "123456")
         }
         btChange.setOnClickListener {
             mPresenter?.changeBaseUrl()
+        }
+        btPermission.setOnClickListener {
+            requestPer()
+        }
+    }
+
+    private fun requestPer() {
+        checkPermissions(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO) {
+            tvShow.text = if (it) "有权限" else "没有权限"
         }
     }
 

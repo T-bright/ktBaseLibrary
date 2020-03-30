@@ -1,6 +1,5 @@
 package com.tbright.ktbaselibrary.extension
 
-import android.app.Activity
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -8,6 +7,10 @@ import androidx.fragment.app.FragmentTransaction
 
 fun FragmentActivity.addFragment(@IdRes id: Int, fragment: Fragment) {
     supportFragmentManager.beginTransaction().add(id, fragment).commit()
+}
+
+fun FragmentActivity.addFragment(tag: String, fragment: Fragment) {
+    supportFragmentManager.beginTransaction().add(fragment, tag).commit()
 }
 
 fun FragmentActivity.replaceFragment(@IdRes id: Int, fragment: Fragment) {
@@ -39,9 +42,11 @@ fun FragmentActivity.showFragment(@IdRes id: Int, needShowFragment: Fragment) {
     }
 }
 
-
-
-
-fun Activity.startCamera(){
-
+fun FragmentActivity.showFragment(tag: String, needShowFragment: Fragment) {
+    var transaction = supportFragmentManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+    if (needShowFragment.isAdded) {
+        transaction.show(needShowFragment).commit()
+    } else {
+        transaction.add(needShowFragment, tag).show(needShowFragment).commit()
+    }
 }
