@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import com.tbright.ktbaselibrary.extension.gone
 import com.tbright.ktbaselibrary.mvp.BaseMvpFragment
 import com.tbright.ktbaselibrary.utils.permission.checkPermissions
-import com.tbright.ktbaseproject.demo.GlobalConstants
 import com.tbright.ktbaseproject.demo.R
 import com.tbright.ktbaseproject.demo.ui.MainContract
 import com.tbright.ktbaseproject.demo.ui.MainPresenter
@@ -27,11 +26,8 @@ class MainFragment : BaseMvpFragment<MainPresenter>() , MainContract.MainView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btGotoFragment.gone()
-        btLogin.setOnClickListener {
-            mPresenter?.login("x12", "123456")
-        }
-        btUser.setOnClickListener {
-            mPresenter?.getUserInfo(GlobalConstants.token?.userId ?: "")
+        btGetNews.setOnClickListener {
+            mPresenter?.singlePoetry()
         }
         btParallelRequest.setOnClickListener {
             mPresenter?.parallelRequest("x1", "123456")

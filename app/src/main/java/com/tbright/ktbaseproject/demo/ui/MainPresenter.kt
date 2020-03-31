@@ -15,27 +15,14 @@ class MainPresenter : MainContract.MainPresenter() {
         return null
     }
 
-    override fun login(username: String, password: String) {
+    override fun singlePoetry() {
         mView?.showLoading()
         mainScope.launch {
-            var token = create(ApiServices::class.java).loginByPassword(username, password).response()
-            token?.let {
-                GlobalConstants.token = it
-                mView?.loginResult("${it.access_token!!}")
+            var singlePoetry = create(ApiServices::class.java).singlePoetry().response()
+            singlePoetry?.let {
+                mView?.loginResult(it)
             }
             mView?.hideLoading()
-        }
-    }
-
-    override fun getUserInfo(userId: String) {
-        mView?.showLoading()
-        mainScope.launch {
-            var user = create(ApiServices::class.java).getUserInfo(userId).response()
-            user?.let {
-                mView?.loginResult("${it.userName}")
-                mView?.hideLoading()
-            }
-
         }
     }
 
@@ -43,16 +30,13 @@ class MainPresenter : MainContract.MainPresenter() {
     override fun parallelRequest(username: String, password: String) {
         mView?.showLoading()
         mainScope.launch {
-            //先登录，拿到token
-            var token = create(ApiServices::class.java).loginByPassword(username, password).response()
-            GlobalConstants.token = token
 
             //使用  async 并行网络 请求
-            var user = async { create(ApiServices::class.java).getUserInfo(GlobalConstants.token?.userId ?: "").response() }
+            var singlePoetry = async { create(ApiServices::class.java).singlePoetry().response() }
 
-            var list = async { create(ApiServices::class.java).getDicList().response() }
+            var musicList = async { create(ApiServices::class.java).getMusicList().response() }
 
-            var result = "${list.await().toString()}------${user?.await()?.userName}"
+            var result = "${singlePoetry.await().toString()}------${musicList?.await()?.first()?.title}"
 
             mView?.loginResult(result)
 

@@ -13,18 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button
-        android:id="@+id/btLogin"
-        android:text="登录获取token"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/btUser"
-        android:text="获取user信息"
+        android:id="@+id/btGetNews"
+        android:text="获取新闻数据"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button
         android:id="@+id/btParallelRequest"
-        android:text="获取user信息"
+        android:text="并行请求"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button

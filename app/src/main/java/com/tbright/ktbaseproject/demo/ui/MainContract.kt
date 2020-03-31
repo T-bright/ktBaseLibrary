@@ -7,9 +7,8 @@ import com.tbright.ktbaselibrary.mvp.BaseView
 interface MainContract {
 
     abstract class MainPresenter : BasePresenter<BaseModel, MainView>(){
-        abstract fun login(username : String, password : String)
 
-        abstract fun getUserInfo(userId : String)
+        abstract fun singlePoetry()
 
         //并行请求
         abstract fun parallelRequest (username : String, password : String)

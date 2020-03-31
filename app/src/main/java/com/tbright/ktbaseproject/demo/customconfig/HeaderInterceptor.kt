@@ -7,8 +7,7 @@ import okhttp3.Response
 
 class HeaderInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
-        val authorization =
-            GlobalConstants.authorization
+        val authorization = ""
         var request = chain.request()
         val newBuilder = request.newBuilder()
         if (!TextUtils.isEmpty(authorization)) {

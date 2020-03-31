@@ -26,12 +26,11 @@ class MainActivity : BaseMvpActivity<MainPresenter>(),
         btGotoFragment.setOnClickListener {
             MyFragmentActivity.start(this)
         }
-        btLogin.setOnClickListener {
-            mPresenter?.login("x12", "123456")
+
+        btGetNews.setOnClickListener {
+            mPresenter?.singlePoetry()
         }
-        btUser.setOnClickListener {
-            mPresenter?.getUserInfo(GlobalConstants.token?.userId ?: "")
-        }
+
         btParallelRequest.setOnClickListener {
             mPresenter?.parallelRequest("x1", "123456")
         }

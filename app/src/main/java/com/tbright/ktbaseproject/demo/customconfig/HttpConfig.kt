@@ -42,7 +42,7 @@ const val EVENTCODE_RESPONSE_FAIL = 999 //http请求失败
 
 
 const val BASE_URL = "base_Url"
-const val mBaseUrl = "http://61.191.199.181:22003/"
+const val mBaseUrl = "https://api.apiopen.top/"
 
 const val GANK_URL = "gank_Url"
 const val mGankUrl = "https://gank.io/"
