@@ -1,41 +1,59 @@
 package com.tbright.ktbaselibrary.utils
 
 import android.app.Activity
+import java.util.*
 
-fun getActivityLists(): List<Activity> {
-    return AppUtils.activityLifecycleImpl.mActivityList
-}
+object ActivityUtils {
+    private val mActivityList = LinkedList<Activity>()
 
-fun getTopActivity(): Activity {
-    return AppUtils.activityLifecycleImpl.mActivityList.last
-}
+    fun addActivity(activity: Activity) {
+        if (mActivityList.contains(activity) && mActivityList.last != activity) {
+            mActivityList.remove(activity)
+            mActivityList.addLast(activity)
+        } else if (!mActivityList.contains(activity)) {
+            mActivityList.addLast(activity)
+        }
+    }
 
-fun isActivityExistInStack(activity: Activity): Boolean {
-    return AppUtils.activityLifecycleImpl.mActivityList.contains(activity)
-}
+    fun removeActivity(activity: Activity) {
+        mActivityList.remove(activity)
+    }
 
-fun finishActivities(vararg clazzs: Class<Activity>) {
-    AppUtils.activityLifecycleImpl.mActivityList.forEach {
-        if (clazzs.contains(it::class.java)) {
+    fun getActivityLists(): List<Activity> {
+        return mActivityList
+    }
+
+    fun getTopActivity(): Activity {
+        return mActivityList.last
+    }
+
+    fun isActivityExistInStack(activity: Activity): Boolean {
+        return mActivityList.contains(activity)
+    }
+
+    fun finishActivities(vararg clazzs: Class<Activity>) {
+        mActivityList.forEach {
+            if (clazzs.contains(it::class.java)) {
+                it.finish()
+            }
+        }
+    }
+
+    fun finishOtherActivities(vararg clazzs: Class<Activity>) {
+        mActivityList.forEach {
+            if (!clazzs.contains(it::class.java)) {
+                it.finish()
+            }
+        }
+    }
+
+    fun finishAllActivities() {
+        mActivityList.forEach {
             it.finish()
         }
     }
-}
 
-fun finishOtherActivities(vararg clazzs: Class<Activity>) {
-    AppUtils.activityLifecycleImpl.mActivityList.forEach {
-        if (!clazzs.contains(it::class.java)) {
-            it.finish()
-        }
+    fun isForForeground(isForForeground: ((Boolean) -> Unit)? = null) {
+        AppUtils.activityLifecycleImpl.isForForeground = isForForeground
     }
-}
-
-fun finishAllActivities() {
-    AppUtils.activityLifecycleImpl.mActivityList.forEach {
-        it.finish()
-    }
-}
-
-fun isForForeground(isForForeground: ((Boolean) -> Unit)? = null) {
-    AppUtils.activityLifecycleImpl.isForForeground = isForForeground
 }

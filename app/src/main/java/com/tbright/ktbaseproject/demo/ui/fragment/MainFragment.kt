@@ -19,12 +19,11 @@ class MainFragment : BaseMvpFragment<MainPresenter>() , MainContract.MainView {
         fun newInstance() = MainFragment()
     }
 
-    override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.activity_main,null)
+    override fun getLayoutId(): Int {
+       return R.layout.activity_main
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initView(savedInstanceState: Bundle?) {
         btGotoFragment.gone()
         btGetNews.setOnClickListener {
             mPresenter?.singlePoetry()
@@ -38,6 +37,10 @@ class MainFragment : BaseMvpFragment<MainPresenter>() , MainContract.MainView {
         btPermission.setOnClickListener {
             requestPer()
         }
+    }
+
+    override fun initData() {
+
     }
 
 

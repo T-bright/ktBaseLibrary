@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.ColorUtils
 import com.blankj.utilcode.util.BarUtils
 import com.tbright.ktbaselibrary.event.MessageEvent
+import com.tbright.ktbaselibrary.utils.ActivityUtils
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -21,6 +22,7 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         beforeViewCreate()
         setContentView(getLayoutId())
+        ActivityUtils.addActivity(this)
         EventBus.getDefault().register(this)
         setStatusBarColor(statusBarColor)
         initView(savedInstanceState)
@@ -48,10 +50,13 @@ abstract class BaseActivity : AppCompatActivity() {
 
     abstract fun initView(savedInstanceState: Bundle?)
 
-    abstract fun initData()
+    open fun initData(){
+
+    }
 
     override fun onDestroy() {
         super.onDestroy()
+        ActivityUtils.removeActivity(this)
         EventBus.getDefault().unregister(this)
     }
 

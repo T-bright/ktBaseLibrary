@@ -18,11 +18,20 @@ abstract class BaseFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return initView(inflater, container, savedInstanceState)
+        return inflater.inflate(getLayoutId(), null)
     }
 
-    abstract fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView(savedInstanceState)
+        initData()
+    }
 
+    abstract fun getLayoutId(): Int
+
+    abstract fun initView(savedInstanceState: Bundle?)
+
+    abstract fun initData()
 
     override fun onDestroy() {
         EventBus.getDefault().unregister(this)
