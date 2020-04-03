@@ -1,19 +1,14 @@
-package com.tbright.ktbaseproject.demo.ui
+package com.tbright.ktbaseproject.demo.ui.activity
 
 import com.tbright.ktbaselibrary.extension.create
 import com.tbright.ktbaselibrary.extension.response
-import com.tbright.ktbaselibrary.mvp.BaseModel
 import com.tbright.ktbaseproject.demo.net.api.ApiServices
-import com.tbright.ktbaseproject.demo.GlobalConstants
 import com.tbright.ktbaseproject.demo.net.api.GankServices
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class MainPresenter : MainContract.MainPresenter() {
 
-    override fun onAttachModel(): BaseModel? {
-        return null
-    }
 
     override fun singlePoetry() {
         mView?.showLoading()

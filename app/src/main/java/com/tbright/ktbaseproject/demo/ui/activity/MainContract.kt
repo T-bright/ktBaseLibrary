@@ -1,4 +1,4 @@
-package com.tbright.ktbaseproject.demo.ui
+package com.tbright.ktbaseproject.demo.ui.activity
 
 import com.tbright.ktbaselibrary.mvp.BaseModel
 import com.tbright.ktbaselibrary.mvp.BasePresenter

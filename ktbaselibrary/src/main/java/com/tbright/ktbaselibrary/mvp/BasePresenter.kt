@@ -15,8 +15,6 @@ abstract class BasePresenter<M : IModel, V : BaseView>: IPresenter {
         this.mView = baseView as V
     }
 
-   abstract fun onAttachModel() : M?
-
     override fun onDestroy() {
         mView?.hideLoading()
         mModel?.onDestroy()

@@ -2,18 +2,13 @@ package com.tbright.ktbaseproject.demo.ui.fragment
 
 import android.Manifest
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import com.tbright.ktbaselibrary.extension.gone
 import com.tbright.ktbaselibrary.mvp.BaseMvpFragment
 import com.tbright.ktbaselibrary.utils.permission.checkPermissions
 import com.tbright.ktbaseproject.demo.R
-import com.tbright.ktbaseproject.demo.ui.MainContract
-import com.tbright.ktbaseproject.demo.ui.MainPresenter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainFragment : BaseMvpFragment<MainPresenter>() , MainContract.MainView {
+class MainFragment : BaseMvpFragment<MainFragmentPresenter>() , MainFragmentContract.MainView {
 
     companion object{
         fun newInstance() = MainFragment()

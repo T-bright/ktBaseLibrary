@@ -1,10 +1,9 @@
-package com.tbright.ktbaseproject.demo.ui
+package com.tbright.ktbaseproject.demo.ui.activity
 
 import android.Manifest
 import android.os.Bundle
 import com.tbright.ktbaselibrary.mvp.BaseMvpActivity
 import com.tbright.ktbaselibrary.utils.permission.checkPermissions
-import com.tbright.ktbaseproject.demo.GlobalConstants
 import com.tbright.ktbaseproject.demo.R
 import com.tbright.ktbaseproject.demo.ui.fragment.MyFragmentActivity
 import kotlinx.android.synthetic.main.activity_main.*

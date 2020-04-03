@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
-    tools:context=".ui.MainActivity">
+    tools:context=".ui.activity.MainActivity">
     <Button
         android:id="@+id/btGotoFragment"
         android:text="Fragment示例代码"
