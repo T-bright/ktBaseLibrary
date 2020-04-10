@@ -1,5 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
+
+    <!-- Your custom size defind by references, can be writted in anywhere, any module, any values/*.xml, for example: -->
+    <dimen name="card_common_margin_left">@dimen/dp_15</dimen>
+
+    <!-- dp and sp values, must be defind in this file! -->
+    <!-- view size,you can add if there is no one -->
     <dimen name="dp_m_60">-60dp</dimen>
     <dimen name="dp_m_30">-30dp</dimen>
     <dimen name="dp_m_20">-20dp</dimen>
@@ -23,6 +29,7 @@
     <dimen name="dp_5">5dp</dimen>
     <dimen name="dp_6">6dp</dimen>
     <dimen name="dp_7">7dp</dimen>
+    <dimen name="dp_7_5">7.5dp</dimen>
     <dimen name="dp_8">8dp</dimen>
     <dimen name="dp_9">9dp</dimen>
     <dimen name="dp_10">10dp</dimen>
@@ -120,6 +127,7 @@
     <dimen name="dp_102">102dp</dimen>
     <dimen name="dp_103">103dp</dimen>
     <dimen name="dp_104">104dp</dimen>
+    <dimen name="dp_104_5">104.5dp</dimen>
     <dimen name="dp_105">105dp</dimen>
     <dimen name="dp_106">106dp</dimen>
     <dimen name="dp_107">107dp</dimen>
@@ -150,6 +158,7 @@
     <dimen name="dp_132">132dp</dimen>
     <dimen name="dp_133">133dp</dimen>
     <dimen name="dp_134">134dp</dimen>
+    <dimen name="dp_134_5">134.5dp</dimen>
     <dimen name="dp_135">135dp</dimen>
     <dimen name="dp_136">136dp</dimen>
     <dimen name="dp_137">137dp</dimen>
@@ -207,6 +216,7 @@
     <dimen name="dp_189">189dp</dimen>
     <dimen name="dp_190">190dp</dimen>
     <dimen name="dp_191">191dp</dimen>
+    <dimen name="dp_191_25">191.25dp</dimen>
     <dimen name="dp_192">192dp</dimen>
     <dimen name="dp_193">193dp</dimen>
     <dimen name="dp_194">194dp</dimen>
@@ -417,4 +427,5 @@
     <dimen name="sp_40">40sp</dimen>
     <dimen name="sp_42">42sp</dimen>
     <dimen name="sp_48">48sp</dimen>
+
 </resources>

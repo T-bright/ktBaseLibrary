@@ -29,11 +29,11 @@ abstract class BaseActivity : AppCompatActivity() {
         initData()
     }
 
-    open fun setStatusBarColor(@ColorInt color: Int, @IntRange(from = 0,to = 255) alpha: Int = 0) {
-        setStatusBarColor(color, alpha,isLightStatus(color))
+    open fun setStatusBarColor(@ColorInt color: Int, @IntRange(from = 0, to = 255) alpha: Int = 0) {
+        setStatusBarColor(color, alpha, isLightStatus(color))
     }
 
-    open fun setStatusBarColor(@ColorInt color: Int, @IntRange(from = 0,to = 255) alpha: Int = 0,isLightMode : Boolean) {
+    open fun setStatusBarColor(@ColorInt color: Int, @IntRange(from = 0, to = 255) alpha: Int = 0, isLightMode: Boolean) {
         BarUtils.setStatusBarColor(this, color, alpha, false)
         BarUtils.setStatusBarLightMode(this, isLightMode)
     }
@@ -50,7 +50,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     abstract fun initView(savedInstanceState: Bundle?)
 
-    open fun initData(){
+    open fun initData() {
 
     }
 
@@ -61,7 +61,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    open fun <T> onMessageEvent(messageEvent: MessageEvent<T>) {
+    open fun onMessageEvent(messageEvent: MessageEvent<*>) {
 
     }
 

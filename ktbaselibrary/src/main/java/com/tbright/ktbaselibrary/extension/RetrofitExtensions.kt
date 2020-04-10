@@ -9,6 +9,9 @@ suspend fun <T> Deferred<BaseResponse<T>>.response(): T? {
     return GlobalConfig.httpConfigProxy?.parseResponseData(this)
 }
 
+suspend fun <T> Deferred<BaseResponse<T>>.responseWrapper(vararg needDisposeError:Any): BaseResponse<T>? {
+    return GlobalConfig.httpConfigProxy?.parseResponseWrapperData(this,needDisposeError)
+}
 
 fun <T> create(clazz: Class<T>) : T{
     if(GlobalConfig.httpConfigProxy == null){

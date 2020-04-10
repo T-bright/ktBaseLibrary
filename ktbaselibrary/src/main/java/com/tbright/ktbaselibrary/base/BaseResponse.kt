@@ -18,5 +18,7 @@ abstract class BaseResponse<T> {
 
     abstract fun getResponseData(): T?
 
+    abstract fun getResponseStatus(): Any?
+
     abstract fun isResponseSuccess(): Boolean
 }

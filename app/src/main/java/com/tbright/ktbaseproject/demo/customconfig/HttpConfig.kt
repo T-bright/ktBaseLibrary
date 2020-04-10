@@ -108,6 +108,45 @@ class HttpConfig : HttpConfigProxy() {
         return null
     }
 
+    override suspend fun <T> parseResponseWrapperData(responseData: Deferred<BaseResponse<T>>,vararg needDisposeError:Any): BaseResponse<T>? {
+        try {
+            var response = responseData.await()
+            if (response.isResponseSuccess()) {
+                return response
+            } else {
+                if(needDisposeError.contains(response.getResponseStatus())){//如果包含，不统一处理，在相应的页面特殊处理
+                    return response
+                }else{
+                    MessageEvent( EVENTCODE_RESPONSE_FAIL,response.getResponseMessage()).send()
+                    return null
+                }
+            }
+        } catch (e: Throwable) {
+            var errMsg = "网络异常"
+            when (e) {
+                is UnknownHostException -> errMsg = "连接失败"
+                is ConnectException -> errMsg = "连接失败"
+                is SocketTimeoutException -> errMsg = "连接超时"
+                is InterruptedIOException -> errMsg = "连接中断"
+                is SSLHandshakeException -> errMsg = "证书验证失败"
+                is JSONException -> errMsg = "数据解析错误"
+                is JsonSyntaxException -> errMsg = "数据解析错误"
+                is NoNetworkException -> errMsg = "无可用网络"
+                is HttpException -> {
+                    when (e.code()) {
+                        UNAUTHORIZED, FORBIDDEN -> {//这两个一般会要求重新登录
+                            MessageEvent(EVENTCODE_RELOGIN,errMsg).send()
+                            return null
+                        }
+                    }
+                }
+                else -> errMsg = e.message.toString()
+            }
+            MessageEvent(EVENTCODE_RESPONSE_FAIL, errMsg).send()
+        }
+        return null
+    }
+
 
     override fun initRetrofit() {
         initClient()

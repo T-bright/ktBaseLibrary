@@ -39,7 +39,7 @@ abstract class BaseFragment : Fragment() {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    open fun <T> onMessageEvent(messageEvent: MessageEvent<T>) {
+    open fun onMessageEvent(messageEvent: MessageEvent<*>) {
 
     }
 }

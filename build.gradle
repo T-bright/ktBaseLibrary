@@ -16,14 +16,20 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.1'
+        classpath 'com.android.tools.build:gradle:3.6.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.novoda:bintray-release:0.9.1'
+    }
+
+    //注释中有汉字，需要这里处理
+    tasks.withType(Javadoc) {
+        options.encoding = "UTF-8"
     }
 }
 
 allprojects {
     repositories {
+        maven { url 'https://dl.bintray.com/tongsiwei49/ktbaselibrary/' }
         google()
         jcenter()
     }

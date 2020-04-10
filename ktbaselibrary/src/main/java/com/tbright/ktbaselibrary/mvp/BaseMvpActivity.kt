@@ -20,11 +20,10 @@ abstract class BaseMvpActivity<  P : IPresenter> : BaseActivity(),BaseView {
         mPresenter?.onDestroy()
     }
 
-    override fun <T> onMessageEvent(messageEvent: MessageEvent<T>) {
+    override fun onMessageEvent(messageEvent: MessageEvent<*>) {
         super.onMessageEvent(messageEvent)
         GlobalConfig.showUIProxy?.parseResponseFailMessage(messageEvent)
     }
-
      override fun showLoading() {
          GlobalConfig.showUIProxy?.showLoading()
      }

@@ -22,4 +22,8 @@ class BaseMagicResponse<T> : BaseResponse<T>() {
     override fun getResponseMessage(): String? {
         return message
     }
+
+    override fun getResponseStatus(): Any? {
+        return code
+    }
 }

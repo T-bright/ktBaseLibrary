@@ -4,28 +4,47 @@ import android.app.Activity
 import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
 import android.os.Bundle
-import java.util.*
 
 object AppUtils {
     var mApplication: Application? = null
     var activityLifecycleImpl: ActivityLifecycleImpl = ActivityLifecycleImpl()
-    fun init(application: Application) {
+    private var lifecycleCallbacks = arrayListOf<ActivityLifecycleCallbacks>()
+    fun init(application: Application, callback: ActivityLifecycleCallbacks? = null) {
         this.mApplication = application
         application.registerActivityLifecycleCallbacks(activityLifecycleImpl)
+        lifecycleCallbacks.add(activityLifecycleImpl)
+        callback?.let {
+            lifecycleCallbacks.add(it)
+        }
     }
 
+    fun registerActivityLifecycleCallback(callback: ActivityLifecycleCallbacks) {
+        mApplication?.registerActivityLifecycleCallbacks(callback)
+        lifecycleCallbacks.add(callback)
+    }
+
+    fun unregisterActivityLifecycleCallback(callback: ActivityLifecycleCallbacks) {
+        mApplication?.unregisterActivityLifecycleCallbacks(callback)
+        lifecycleCallbacks.remove(callback)
+    }
+
+    fun unregisterAllActivityLifecycleCallback() {
+        lifecycleCallbacks.forEach {
+            mApplication?.unregisterActivityLifecycleCallbacks(it)
+        }
+        lifecycleCallbacks.clear()
+    }
 
     class ActivityLifecycleImpl : ActivityLifecycleCallbacks {
-        val mActivityList = LinkedList<Activity>()
+        //不推荐使用这种方式去管理Activity。原因是，当我们finish一个activity时，onActivityDestroyed会最先触发，然后再去执行Activity的onDestroy,所以如果是
+        //统一在这里去管理activity，会发现在activity的onDestroy中执行的时候，当前栈中的activity已经不存在了。
         var isForForeground: ((Boolean) -> Unit)? = null
         private var mForegroundCount = 0
         private var mConfigCount = 0
         override fun onActivityCreated(activity: Activity, bundle: Bundle?) {
-            addActivity(activity)
         }
 
         override fun onActivityStarted(activity: Activity) {
-            addActivity(activity)
             if (mConfigCount < 0) {
                 ++mConfigCount
             } else {
@@ -35,11 +54,9 @@ object AppUtils {
         }
 
         override fun onActivityResumed(activity: Activity) {
-            addActivity(activity)
         }
 
         override fun onActivityPaused(activity: Activity) {
-
         }
 
         override fun onActivityStopped(activity: Activity) {
@@ -52,21 +69,9 @@ object AppUtils {
         }
 
         override fun onActivityDestroyed(activity: Activity) {
-            mActivityList.remove(activity)
         }
 
         override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {
-
-        }
-
-
-        fun addActivity(activity: Activity) {
-            if (mActivityList.contains(activity) && mActivityList.last != activity) {
-                mActivityList.remove(activity)
-                mActivityList.addLast(activity)
-            } else if (!mActivityList.contains(activity)) {
-                mActivityList.addLast(activity)
-            }
         }
     }
 

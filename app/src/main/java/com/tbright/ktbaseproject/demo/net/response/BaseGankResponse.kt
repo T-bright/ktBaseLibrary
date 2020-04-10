@@ -21,4 +21,8 @@ class BaseGankResponse<T> : BaseResponse<T>() {
     override fun getResponseMessage(): String? {
         return if (status == 100) "请求成功！！！" else msg
     }
+
+    override fun getResponseStatus(): Any? {
+        return status
+    }
 }
