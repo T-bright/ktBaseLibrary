@@ -6,7 +6,7 @@ import com.tbright.ktbaselibrary.event.MessageEvent
 import com.tbright.ktbaselibrary.global.GlobalConfig
 import com.tbright.ktbaselibrary.utils.ReflectUtils
 
-abstract class BaseMvpActivity<  P : IPresenter> : BaseActivity(),BaseView {
+abstract class BaseMvpActivity<P : IPresenter> : BaseActivity(), BaseView {
 
     open var mPresenter: P? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,24 +24,25 @@ abstract class BaseMvpActivity<  P : IPresenter> : BaseActivity(),BaseView {
         super.onMessageEvent(messageEvent)
         GlobalConfig.showUIProxy?.parseResponseFailMessage(messageEvent)
     }
-     override fun showLoading() {
-         GlobalConfig.showUIProxy?.showLoading()
-     }
 
-     override fun hideLoading() {
-         GlobalConfig.showUIProxy?.hideLoading()
-     }
+    override fun showLoading() {
+        GlobalConfig.showUIProxy?.showLoading()
+    }
 
-     override fun showError(errorMessage: String) {
-         GlobalConfig.showUIProxy?.showError(errorMessage)
-     }
+    override fun hideLoading() {
+        GlobalConfig.showUIProxy?.hideLoading()
+    }
 
-      override fun finishRefresh() {
+    override fun showError(errorMessage: String) {
+        GlobalConfig.showUIProxy?.showError(errorMessage)
+    }
 
-      }
+    override fun finishRefresh() {
 
-      override fun finishLoadMore() {
+    }
 
-      }
+    override fun finishLoadMore(isLoaderAll: Boolean) {
 
-  }
+    }
+
+}

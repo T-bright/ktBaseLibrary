@@ -22,7 +22,7 @@ abstract class BaseMvpFragment<P : IPresenter> : BaseFragment(), BaseView {
         mPresenter?.onDestroy()
     }
 
-    override fun <T> onMessageEvent(messageEvent: MessageEvent<T>) {
+    override fun onMessageEvent(messageEvent: MessageEvent<*>) {
         super.onMessageEvent(messageEvent)
         GlobalConfig.showUIProxy?.parseResponseFailMessage(messageEvent)
     }
@@ -43,7 +43,9 @@ abstract class BaseMvpFragment<P : IPresenter> : BaseFragment(), BaseView {
 
     }
 
-    override fun finishLoadMore() {
+     override fun finishLoadMore(isLoaderAll: Boolean) {
 
-    }
-}
+     }
+
+
+ }

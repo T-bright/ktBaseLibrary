@@ -13,5 +13,8 @@ interface BaseView {
 
     fun finishRefresh()
 
-    fun finishLoadMore()
+    /**
+     * @param isLoaderAll:是否加载所有
+     */
+    fun finishLoadMore(isLoaderAll: Boolean = false)
 }

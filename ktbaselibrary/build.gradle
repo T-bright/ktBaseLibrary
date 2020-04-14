@@ -81,4 +81,7 @@ dependencies {
 
     //各种工具类
     api "com.blankj:utilcode:$utilcode"
+
+    //material
+    api "com.google.android.material:material:$material"
 }
