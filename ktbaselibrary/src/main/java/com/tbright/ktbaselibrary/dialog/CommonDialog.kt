@@ -2,7 +2,6 @@ package com.tbright.ktbaselibrary.dialog
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import androidx.annotation.LayoutRes
@@ -26,7 +25,6 @@ open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layo
      *
      */
     private var isUseDialogCommon = layoutId == R.layout.dialog_common
-
 
 
     override fun onCreating(savedInstanceState: Bundle?) {

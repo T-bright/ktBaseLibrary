@@ -14,7 +14,7 @@ abstract class BaseCommonDialog constructor(context: Context, @LayoutRes var lay
 
     var mContentView: View? = null
 
-    lateinit var mResults: (mContentView: View, dialog: AlertDialog) -> Unit
+    private var mResults: ((mContentView: View, dialog: AlertDialog) -> Unit)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +23,7 @@ abstract class BaseCommonDialog constructor(context: Context, @LayoutRes var lay
         setDialogWidth()
         onCreating(savedInstanceState)
         try {
-            mResults.invoke(mContentView!!, this)
+            mResults?.invoke(mContentView!!, this)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -40,7 +40,7 @@ abstract class BaseCommonDialog constructor(context: Context, @LayoutRes var lay
         }
     }
 
-    open fun show(result: (mContentView: View, dialog: AlertDialog) -> Unit) {
+    open fun show(result: ((mContentView: View, dialog: AlertDialog) -> Unit)? = null) {
         this.mResults = result
         this.show()
     }

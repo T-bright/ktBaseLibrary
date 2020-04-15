@@ -62,15 +62,15 @@ open class BottomCommonDialog(val contentViewId: Int) : BottomSheetDialogFragmen
     }
 
 
-    lateinit var result: (mContentView: View, dialog: BottomCommonDialog) -> Unit
+    private var result: ((mContentView: View, dialog: BottomCommonDialog) -> Unit)? = null
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        result.invoke(mContentView, this)
+        result?.invoke(mContentView, this)
     }
 
-    fun show(fragmentManager: FragmentManager, tag: String = "tag", result: (mContentView: View, dialog: BottomCommonDialog) -> Unit) {
+    fun show(fragmentManager: FragmentManager, tag: String = "tag", result: ((mContentView: View, dialog: BottomCommonDialog) -> Unit)? = null) {
         this.show(fragmentManager, tag)
         this.result = result
     }
