@@ -13,7 +13,7 @@ import com.tbright.ktbaselibrary.extension.isVisiable
 import kotlinx.android.synthetic.main.dialog_common.*
 import java.lang.NullPointerException
 
-open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layout.dialog_common, @StyleRes style: Int = R.style.CommonDialog) : BaseCommonDialog(context,layoutIds, style) {
+open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layout.dialog_common, @StyleRes style: Int = R.style.CommonDialog) : BaseCommonDialog(context, layoutIds, style) {
 
     /**
      * 是否使用的是 dialog_common 布局:
@@ -64,12 +64,13 @@ open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layo
      * 因为 kotlin-android-extensions 目前不支持 获取library中viewId。所以，dialog_common 布局的viewId 在 外部是获取不到的，会报一个NullPointerException。
      * 所以，如果使用的是 dialog_common 布局，需要使用 showCommon 方法来显示 dialog
      */
-    override fun show(result: (mContentView: View, dialog: AlertDialog) -> Unit) {
-        if(isUseDialogCommon) throw NullPointerException("please use function showCommon")
+    override fun show(result: ((mContentView: View, dialog: AlertDialog) -> Unit)?) {
+        if (isUseDialogCommon) throw NullPointerException("please use function showCommon()")
         super.show(result)
     }
 
     fun showCommon(result: CommonDialog.() -> Unit) {
+        if (!isUseDialogCommon) throw NullPointerException("please use function show()")
         this.show()
         this.result()
     }

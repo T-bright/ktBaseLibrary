@@ -40,7 +40,7 @@ abstract class BaseCommonDialog constructor(context: Context, @LayoutRes var lay
         }
     }
 
-    open fun show(result: ((mContentView: View, dialog: AlertDialog) -> Unit)? = null) {
+    open fun show(result: ((mContentView: View, dialog: AlertDialog) -> Unit)?) {
         this.mResults = result
         this.show()
     }

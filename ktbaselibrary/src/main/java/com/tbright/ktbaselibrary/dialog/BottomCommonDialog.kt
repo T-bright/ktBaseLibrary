@@ -70,7 +70,7 @@ open class BottomCommonDialog(val contentViewId: Int) : BottomSheetDialogFragmen
         result?.invoke(mContentView, this)
     }
 
-    fun show(fragmentManager: FragmentManager, tag: String = "tag", result: ((mContentView: View, dialog: BottomCommonDialog) -> Unit)? = null) {
+    fun show(fragmentManager: FragmentManager, tag: String = "tag", result: ((mContentView: View, dialog: BottomCommonDialog) -> Unit)?) {
         this.show(fragmentManager, tag)
         this.result = result
     }
