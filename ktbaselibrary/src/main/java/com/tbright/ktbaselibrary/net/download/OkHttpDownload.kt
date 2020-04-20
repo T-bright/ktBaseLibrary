@@ -1,17 +1,18 @@
 package com.tbright.ktbaselibrary.net.download
 
+import android.util.Log
 import okhttp3.*
 import java.io.IOException
+import java.util.concurrent.ConcurrentHashMap
 
 //写一个基于OkHttp的下载工具类
 class OkHttpDownload : DownLoadEngine {
     private val okHttpClient = OkHttpClient()
-    private val callCaches = hashMapOf<String, Call>()
-    private val callbackCaches = hashMapOf<String, DownLoadEngine.CallBack>()
+    private val callCaches = ConcurrentHashMap<String, Call>()
+    private val callbackCaches = ConcurrentHashMap<String, DownLoadEngine.CallBack>()
     override fun startDownload(downloadTask: DownloadTask, callback: DownLoadEngine.CallBack) {
         val request: Request = Request.Builder()
             .url(downloadTask.url!!)
-            .addHeader("Connection", "close")
             .build()
         var call = okHttpClient.newCall(request)
         callCaches[downloadTask.url!!] = call

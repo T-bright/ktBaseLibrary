@@ -3,34 +3,18 @@ package com.tbright.ktbaselibrary.net.download
 import android.net.Uri
 import java.io.File
 
-class DownloadTask private constructor(var url: String?, var uri: Uri?, var tag: String?) {
+class DownloadTask private constructor(var url: String?,
+                                       var uri: Uri?,
+                                       var priority: Int //下载的优先级，值越大，优先级越高
+) : Comparable<DownloadTask> {
     var totalLength: Long = 0
     var process: Long = 0
-
-    companion object {
-        fun enqueues(tasks: List<DownloadTask>, downloadCallback: DownloadCallback) {
-        }
-
-        fun cancel(url: String) {
-
-        }
-
-        fun cancelAll() {
-
-        }
-    }
-
-    fun enqueue(downloadCallback: DownloadCallback) {
-    }
-
-    fun cancel() {
-
-    }
 
     class Build {
         var url: String? = null
         var uri: Uri? = null
         var tag: String? = null
+        var priority: Int = 0
 
         constructor(url: String, parentPath: String, filename: String) {
             this.url = url
@@ -41,8 +25,13 @@ class DownloadTask private constructor(var url: String?, var uri: Uri?, var tag:
             this.uri = Uri.fromFile(file)
         }
 
+        fun setPriority(priority: Int): Build {
+            this.priority = priority
+            return this
+        }
+
         fun build(): DownloadTask {
-            return DownloadTask(url, uri, tag)
+            return DownloadTask(url, uri, priority)
         }
 
         fun addHeader() {
@@ -52,5 +41,9 @@ class DownloadTask private constructor(var url: String?, var uri: Uri?, var tag:
         fun addHeaders() {
 
         }
+    }
+
+    override fun compareTo(other: DownloadTask): Int {
+        return other.priority - this.priority
     }
 }
