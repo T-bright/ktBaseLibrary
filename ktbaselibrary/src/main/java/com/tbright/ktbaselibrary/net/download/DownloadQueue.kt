@@ -2,6 +2,7 @@ package com.tbright.ktbaselibrary.net.download
 
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import java.io.FileOutputStream
 import java.io.InputStream
 import java.util.concurrent.Executors
@@ -32,24 +33,26 @@ class DownloadQueue constructor(downLoadEngine: DownLoadEngine? = null, var maxD
     }
 
     fun cancel(url: String) {
-        downLoadEngine.cancel(url)
         val iterator = downloadQueues.iterator()
         while (iterator.hasNext()) {
-            if (iterator.next().url == url) {
-                iterator.remove()
+            val task = iterator.next()
+            if (task.url == url && task.isDownLoading()) {
+                downLoadEngine.cancel(url)
             }
         }
     }
 
     fun cancel(downloadTask: DownloadTask) {
-        downLoadEngine.cancel(downloadTask)
-        downloadQueues.remove(downloadTask)
+        if (downloadTask.isDownLoading()) {
+            downLoadEngine.cancel(downloadTask)
+        }
     }
 
 
     fun cancelAll() {
-        downLoadEngine.cancelAll()
         downloadQueues.clear()
+        downLoadEngine.cancelAll()
+        count.set(0)
     }
 
     fun startDownload(downloadCallback: DownloadCallback) {
@@ -59,6 +62,7 @@ class DownloadQueue constructor(downLoadEngine: DownLoadEngine? = null, var maxD
                     val task = downloadQueues.take()
                     if (task != null) {
                         count.addAndGet(1)
+                        task.downloadType = DownloadTask.START
                         mainHandler.post {
                             downloadCallback.started(task)
                         }
@@ -72,25 +76,29 @@ class DownloadQueue constructor(downLoadEngine: DownLoadEngine? = null, var maxD
     private fun download(task: DownloadTask, downloadCallback: DownloadCallback) {
         downLoadEngine.startDownload(task, object : DownLoadEngine.CallBack {
             override fun onCancel(url: String) {
-                downloadQueues.forEach {
-                    if (it.url == url) {
-                        mainHandler.post {
-                            downloadCallback.canceled(it)
-                            count.decrementAndGet()
-                        }
+                Log.e("CCC","onCancel  url :${url}")
+                val iterator = downloadQueues.iterator()
+                while (iterator.hasNext()) {
+                    val downloadTask = iterator.next()
+                    if (downloadTask.url == url) {
+                        downloadTask.downloadType = DownloadTask.CANCEL
+                        iterator.remove()
+                        downloadCallback.canceled(downloadTask)
+                        count.decrementAndGet()
                     }
                 }
             }
 
             override fun onFailure(downloadTask: DownloadTask, e: Exception) {
                 mainHandler.post {
+                    downloadTask.downloadType = DownloadTask.ERROR
                     downloadCallback.error(downloadTask, e)
                     count.decrementAndGet()
                 }
             }
 
             override fun onSuccess(downloadTask: DownloadTask, inputStream: InputStream) {
-                val buffer = ByteArray(1024 * 1000)
+                val buffer = ByteArray(downloadTask.bufferSize)
                 var len: Int = 0
                 var process: Long = 0
                 var fos = FileOutputStream(downloadTask.uri!!.encodedPath?.orEmpty())
@@ -102,6 +110,7 @@ class DownloadQueue constructor(downLoadEngine: DownLoadEngine? = null, var maxD
                 }
 
                 mainHandler.post {
+                    downloadTask.downloadType = DownloadTask.FINISH
                     downloadCallback.completed(downloadTask)
                     count.decrementAndGet()
                 }

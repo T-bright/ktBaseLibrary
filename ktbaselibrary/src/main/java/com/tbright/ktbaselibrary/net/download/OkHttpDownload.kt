@@ -13,8 +13,8 @@ class OkHttpDownload : DownLoadEngine {
         val headersBuilder = Headers.Builder()
         if (downloadTask.headerMaps.isNotEmpty()) {
             val iterator = downloadTask.headerMaps.iterator()
-            while (iterator.hasNext()){
-                headersBuilder.add(iterator.next().key,iterator.next().value)
+            while (iterator.hasNext()) {
+                headersBuilder.add(iterator.next().key, iterator.next().value)
             }
         }
         val request: Request = Request.Builder()
@@ -43,14 +43,18 @@ class OkHttpDownload : DownLoadEngine {
     override fun cancel(downloadTask: DownloadTask) {
         callCaches[downloadTask.url]?.cancel()
         callCaches.remove(downloadTask.url)
-        callbackCaches[downloadTask.url]?.onCancel(downloadTask.url!!)
+        var callback = callbackCaches[downloadTask.url]
+        callback?.onCancel(downloadTask.url!!)
+        callback = null
     }
 
     override fun cancel(url: String) {
         val call = callCaches[url]
         call?.cancel()
         callCaches.remove(url)
-        callbackCaches[url]?.onCancel(url)
+        var callback = callbackCaches[url]
+        callback?.onCancel(url)
+        callback = null
     }
 
     override fun cancelAll() {
