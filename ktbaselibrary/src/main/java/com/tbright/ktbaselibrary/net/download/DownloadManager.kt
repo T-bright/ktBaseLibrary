@@ -1,7 +1,6 @@
 package com.tbright.ktbaselibrary.net.download
 
-import android.os.SystemClock
-import kotlin.concurrent.thread
+import java.io.File
 
 
 class DownloadManager {
@@ -31,20 +30,33 @@ class DownloadManager {
     /**
      * 添加下载任务
      */
-    fun addTask(downloadTask: DownloadTask, downloadCallback: DownloadCallback) {
+    fun addTask(downloadTask: DownloadTask, downloadCallback: DownloadCallback): DownloadManager {
         downloadQueue.enqueue(downloadTask)
         downloadQueue.startDownload(downloadCallback)
+        return this
     }
 
     /**
      * 添加下载任务
      */
-    fun addTask(downloadTasks: List<DownloadTask>, downloadCallback: DownloadCallback) {
+    fun addTask(downloadTasks: List<DownloadTask>, downloadCallback: DownloadCallback): DownloadManager {
         downloadQueue.enqueue(downloadTasks)
-        thread {
-            SystemClock.sleep(1000)
-            downloadQueue.startDownload(downloadCallback)
-        }
+        downloadQueue.startDownload(downloadCallback)
+        return this
+    }
+
+    fun addTask(url: String, file: File, priority: Int = 0, downloadCallback: DownloadCallback): DownloadManager {
+        var downloadTask = DownloadTask.Build(url, file).setPriority(priority).build()
+        downloadQueue.enqueue(downloadTask)
+        downloadQueue.startDownload(downloadCallback)
+        return this
+    }
+
+    fun addTask(url: String, parentPath: String, filename: String, priority: Int = 0, downloadCallback: DownloadCallback): DownloadManager {
+        var downloadTask = DownloadTask.Build(url, parentPath, filename).setPriority(priority).build()
+        downloadQueue.enqueue(downloadTask)
+        downloadQueue.startDownload(downloadCallback)
+        return this
     }
 
     /**
@@ -71,8 +83,9 @@ class DownloadManager {
     /**
      * 获取当前正在下载的数量
      */
-    fun getNowDownLoadCount(){
+    fun getNowDownLoadCount() {
 
     }
+
 
 }

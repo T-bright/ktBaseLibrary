@@ -5,16 +5,17 @@ import java.io.File
 
 class DownloadTask private constructor(var url: String?,
                                        var uri: Uri?,
-                                       var priority: Int //下载的优先级，值越大，优先级越高
+                                       var priority: Int, //下载的优先级，值越大，优先级越高
+                                       var headerMaps: Map<String, String> //header
 ) : Comparable<DownloadTask> {
     var totalLength: Long = 0
     var process: Long = 0
 
     class Build {
-        var url: String? = null
-        var uri: Uri? = null
-        var tag: String? = null
-        var priority: Int = 0
+        private var url: String? = null
+        private var uri: Uri? = null
+        private var priority: Int = 0
+        private var headerMaps = hashMapOf<String, String>()
 
         constructor(url: String, parentPath: String, filename: String) {
             this.url = url
@@ -30,16 +31,17 @@ class DownloadTask private constructor(var url: String?,
             return this
         }
 
+
         fun build(): DownloadTask {
-            return DownloadTask(url, uri, priority)
+            return DownloadTask(url, uri, priority, headerMaps)
         }
 
-        fun addHeader() {
-
+        fun addHeader(key: String, value: String) {
+            headerMaps[key] = value
         }
 
-        fun addHeaders() {
-
+        fun addHeaders(headerMaps: Map<String, String>) {
+            this.headerMaps.putAll(headerMaps)
         }
     }
 

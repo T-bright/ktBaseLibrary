@@ -55,7 +55,8 @@ class MainActivity : BaseMvpActivity<MainPresenter>(),
     }
 
     private fun download() {
-        val url = "http://cc-download.edrawsoft.cn/inst/mindmaster7_cn_setup_full5375.exe"
+        var url = "http://cc-download.edrawsoft.cn/inst/mindmaster7_cn_setup_full5375.exe"
+        url = "https://fga1.market.xiaomi.com/download/AppStore/069f944844904eddc7dd542b7c1147cc55e43da3a/com.quxiangtou.release.apk"
         var file1 = File("${cacheDir.absolutePath}/1.exe")
         FileUtils.createOrExistsFile(file1)
 
@@ -116,6 +117,7 @@ class MainActivity : BaseMvpActivity<MainPresenter>(),
     override fun loginResult(result: String) {
         tvShow.text = result
     }
+
 
 
 }

@@ -1,6 +1,5 @@
 package com.tbright.ktbaselibrary.net.download
 
-import android.util.Log
 import okhttp3.*
 import java.io.IOException
 import java.util.concurrent.ConcurrentHashMap
@@ -11,8 +10,16 @@ class OkHttpDownload : DownLoadEngine {
     private val callCaches = ConcurrentHashMap<String, Call>()
     private val callbackCaches = ConcurrentHashMap<String, DownLoadEngine.CallBack>()
     override fun startDownload(downloadTask: DownloadTask, callback: DownLoadEngine.CallBack) {
+        val headersBuilder = Headers.Builder()
+        if (downloadTask.headerMaps.isNotEmpty()) {
+            val iterator = downloadTask.headerMaps.iterator()
+            while (iterator.hasNext()){
+                headersBuilder.add(iterator.next().key,iterator.next().value)
+            }
+        }
         val request: Request = Request.Builder()
             .url(downloadTask.url!!)
+            .headers(headersBuilder.build())
             .build()
         var call = okHttpClient.newCall(request)
         callCaches[downloadTask.url!!] = call
@@ -24,16 +31,16 @@ class OkHttpDownload : DownLoadEngine {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                callCaches.remove(downloadTask.url!!)
                 if (response.isSuccessful) {
                     downloadTask.totalLength = response.body()!!.contentLength()
                     callback.onSuccess(downloadTask, response.body()!!.byteStream())
+                    callCaches.remove(downloadTask.url!!)
                 }
             }
         })
     }
 
-    override fun cancel(downloadTask: DownloadTask){
+    override fun cancel(downloadTask: DownloadTask) {
         callCaches[downloadTask.url]?.cancel()
         callCaches.remove(downloadTask.url)
         callbackCaches[downloadTask.url]?.onCancel(downloadTask.url!!)
