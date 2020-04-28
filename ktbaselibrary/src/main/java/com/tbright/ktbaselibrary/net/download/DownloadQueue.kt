@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger
 
 class DownloadQueue constructor(downLoadEngine: DownLoadEngine? = null, var maxDownloadCount: Int = 5) {
     private var downloadQueues: PriorityBlockingQueue<DownloadTask> = PriorityBlockingQueue()
+    private var downloadCaches = arrayListOf<DownloadTask>()
     private var downLoadEngine: DownLoadEngine
     private val mainHandler = Handler(Looper.getMainLooper())
     private val count: AtomicInteger = AtomicInteger(0)
@@ -26,10 +27,12 @@ class DownloadQueue constructor(downLoadEngine: DownLoadEngine? = null, var maxD
 
     fun enqueue(downloadTask: DownloadTask) {
         downloadQueues.put(downloadTask)
+        downloadCaches.add(downloadTask)
     }
 
     fun enqueue(downloadTasks: List<DownloadTask>) {
         downloadQueues.addAll(downloadTasks)
+        downloadCaches.addAll(downloadTasks)
     }
 
     fun cancel(url: String) {
@@ -52,6 +55,7 @@ class DownloadQueue constructor(downLoadEngine: DownLoadEngine? = null, var maxD
     fun cancelAll() {
         downloadQueues.clear()
         downLoadEngine.cancelAll()
+        downloadCaches.clear()
         count.set(0)
     }
 
@@ -77,7 +81,7 @@ class DownloadQueue constructor(downLoadEngine: DownLoadEngine? = null, var maxD
         downLoadEngine.startDownload(task, object : DownLoadEngine.CallBack {
             override fun onCancel(url: String) {
                 Log.e("CCC","onCancel  url :${url}")
-                val iterator = downloadQueues.iterator()
+                val iterator = downloadCaches.iterator()
                 while (iterator.hasNext()) {
                     val downloadTask = iterator.next()
                     if (downloadTask.url == url) {
@@ -92,6 +96,7 @@ class DownloadQueue constructor(downLoadEngine: DownLoadEngine? = null, var maxD
             override fun onFailure(downloadTask: DownloadTask, e: Exception) {
                 mainHandler.post {
                     downloadTask.downloadType = DownloadTask.ERROR
+                    downloadCaches.remove(downloadTask)
                     downloadCallback.error(downloadTask, e)
                     count.decrementAndGet()
                 }
@@ -101,7 +106,7 @@ class DownloadQueue constructor(downLoadEngine: DownLoadEngine? = null, var maxD
                 val buffer = ByteArray(downloadTask.bufferSize)
                 var len: Int = 0
                 var process: Long = 0
-                var fos = FileOutputStream(downloadTask.uri!!.encodedPath?.orEmpty())
+                var fos = FileOutputStream(downloadTask.uri!!.encodedPath!!)
                 while (((inputStream.read(buffer)).also { len = it }) != -1) {
                     fos.write(buffer, 0, len)
                     process += len
@@ -113,6 +118,7 @@ class DownloadQueue constructor(downLoadEngine: DownLoadEngine? = null, var maxD
                     downloadTask.downloadType = DownloadTask.FINISH
                     downloadCallback.completed(downloadTask)
                     count.decrementAndGet()
+                    downloadCaches.remove(downloadTask)
                 }
                 fos.close()
                 inputStream.close()

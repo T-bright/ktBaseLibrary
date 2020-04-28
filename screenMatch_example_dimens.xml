@@ -1,5 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
+
+    <!-- Your custom size defind by references, can be writted in anywhere, any module, any values/*.xml, for example: -->
+    <dimen name="card_common_margin_left">@dimen/dp_15</dimen>
+
+    <!-- dp and sp values, must be defind in this file! -->
+    <!-- view size,you can add if there is no one -->
     <dimen name="dp_m_60">-60dp</dimen>
     <dimen name="dp_m_30">-30dp</dimen>
     <dimen name="dp_m_20">-20dp</dimen>
@@ -23,6 +29,7 @@
     <dimen name="dp_5">5dp</dimen>
     <dimen name="dp_6">6dp</dimen>
     <dimen name="dp_7">7dp</dimen>
+    <dimen name="dp_7_5">7.5dp</dimen>
     <dimen name="dp_8">8dp</dimen>
     <dimen name="dp_9">9dp</dimen>
     <dimen name="dp_10">10dp</dimen>
@@ -120,6 +127,7 @@
     <dimen name="dp_102">102dp</dimen>
     <dimen name="dp_103">103dp</dimen>
     <dimen name="dp_104">104dp</dimen>
+    <dimen name="dp_104_5">104.5dp</dimen>
     <dimen name="dp_105">105dp</dimen>
     <dimen name="dp_106">106dp</dimen>
     <dimen name="dp_107">107dp</dimen>
@@ -150,6 +158,7 @@
     <dimen name="dp_132">132dp</dimen>
     <dimen name="dp_133">133dp</dimen>
     <dimen name="dp_134">134dp</dimen>
+    <dimen name="dp_134_5">134.5dp</dimen>
     <dimen name="dp_135">135dp</dimen>
     <dimen name="dp_136">136dp</dimen>
     <dimen name="dp_137">137dp</dimen>
@@ -207,6 +216,7 @@
     <dimen name="dp_189">189dp</dimen>
     <dimen name="dp_190">190dp</dimen>
     <dimen name="dp_191">191dp</dimen>
+    <dimen name="dp_191_25">191.25dp</dimen>
     <dimen name="dp_192">192dp</dimen>
     <dimen name="dp_193">193dp</dimen>
     <dimen name="dp_194">194dp</dimen>
@@ -376,51 +386,8 @@
     <dimen name="dp_358">358dp</dimen>
     <dimen name="dp_359">359dp</dimen>
     <dimen name="dp_360">360dp</dimen>
-
-    <dimen name="dp_361">361.0000dp</dimen>
-    <dimen name="dp_362">362.0000dp</dimen>
-    <dimen name="dp_363">363.0000dp</dimen>
-    <dimen name="dp_364">364.0000dp</dimen>
-    <dimen name="dp_365">365.0000dp</dimen>
-    <dimen name="dp_366">366.0000dp</dimen>
-    <dimen name="dp_367">367.0000dp</dimen>
-    <dimen name="dp_368">368.0000dp</dimen>
-    <dimen name="dp_369">369.0000dp</dimen>
-
-
+    <dimen name="dp_365">365dp</dimen>
     <dimen name="dp_370">370dp</dimen>
-    <dimen name="dp_371">371.0000dp</dimen>
-    <dimen name="dp_372">372.0000dp</dimen>
-    <dimen name="dp_373">373.0000dp</dimen>
-    <dimen name="dp_374">374.0000dp</dimen>
-    <dimen name="dp_375">375.0000dp</dimen>
-    <dimen name="dp_376">376.0000dp</dimen>
-    <dimen name="dp_377">377.0000dp</dimen>
-    <dimen name="dp_378">378.0000dp</dimen>
-    <dimen name="dp_379">379.0000dp</dimen>
-
-    <dimen name="dp_380">380.0000dp</dimen>
-    <dimen name="dp_381">381.0000dp</dimen>
-    <dimen name="dp_382">382.0000dp</dimen>
-    <dimen name="dp_383">383.0000dp</dimen>
-    <dimen name="dp_384">384.0000dp</dimen>
-    <dimen name="dp_385">385.0000dp</dimen>
-    <dimen name="dp_386">386.0000dp</dimen>
-    <dimen name="dp_387">387.0000dp</dimen>
-    <dimen name="dp_388">388.0000dp</dimen>
-    <dimen name="dp_389">389.0000dp</dimen>
-
-    <dimen name="dp_390">390.0000dp</dimen>
-    <dimen name="dp_391">391.0000dp</dimen>
-    <dimen name="dp_392">392.0000dp</dimen>
-    <dimen name="dp_393">393.0000dp</dimen>
-    <dimen name="dp_394">394.0000dp</dimen>
-    <dimen name="dp_395">395.0000dp</dimen>
-    <dimen name="dp_396">396.0000dp</dimen>
-    <dimen name="dp_397">397.0000dp</dimen>
-    <dimen name="dp_398">398.0000dp</dimen>
-    <dimen name="dp_399">399.0000dp</dimen>
-
     <dimen name="dp_400">400dp</dimen>
     <dimen name="dp_410">410dp</dimen>
     <dimen name="dp_422">422dp</dimen>
@@ -460,4 +427,5 @@
     <dimen name="sp_40">40sp</dimen>
     <dimen name="sp_42">42sp</dimen>
     <dimen name="sp_48">48sp</dimen>
+
 </resources>
