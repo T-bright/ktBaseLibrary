@@ -9,11 +9,13 @@ import androidx.annotation.StyleRes
 import androidx.appcompat.app.AlertDialog
 import com.tbright.ktbaselibrary.R
 import com.tbright.ktbaselibrary.base.BaseCommonDialog
+import com.tbright.ktbaselibrary.extension.isGone
 import com.tbright.ktbaselibrary.extension.isVisiable
 import kotlinx.android.synthetic.main.dialog_common.*
 import java.lang.NullPointerException
 
-open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layout.dialog_common, @StyleRes style: Int = R.style.CommonDialog) : BaseCommonDialog(context, layoutIds, style) {
+open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layout.dialog_common, @StyleRes style: Int = R.style.CommonDialog) :
+    BaseCommonDialog(context, layoutIds, style) {
 
     /**
      * 是否使用的是 dialog_common 布局:
@@ -30,6 +32,7 @@ open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layo
     override fun onCreating(savedInstanceState: Bundle?) {
         try {
             tvCancel?.setOnClickListener { dismiss() }
+            howMuchButton = 2//默认两个按钮
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -80,7 +83,7 @@ open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layo
             field = value
             try {
                 tvTitle.text = value
-                tvTitle.isVisiable = value.isNotEmpty()
+                tvTitle.isGone = value.isEmpty()
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -102,8 +105,8 @@ open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layo
         set(value) {
             field = value
             try {
-                tvIKnow.isVisiable = value == 1
-                haveTwoButton.isVisiable = value == 2
+                tvIKnow.isGone = value == 2
+                haveTwoButton.isGone = value == 1
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -111,9 +114,14 @@ open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layo
 
     fun positiveClickListener(isDismissDialog: Boolean = true, positive: () -> Unit) {
         try {
-            if (isDismissDialog) dismiss()
-            tvConfirm.setOnClickListener { positive.invoke() }
-            tvIKnow.setOnClickListener { positive.invoke() }
+            tvConfirm.setOnClickListener {
+                positive.invoke()
+                if (isDismissDialog) dismiss()
+            }
+            tvIKnow.setOnClickListener {
+                positive.invoke()
+                if (isDismissDialog) dismiss()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -121,7 +129,10 @@ open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layo
 
     fun negativeClickListener(negative: () -> Unit) {
         try {
-            tvCancel.setOnClickListener { negative.invoke() }
+            tvCancel.setOnClickListener {
+                negative.invoke()
+                dismiss()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }

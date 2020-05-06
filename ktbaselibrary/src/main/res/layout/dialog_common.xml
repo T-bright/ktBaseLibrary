@@ -10,22 +10,24 @@
     android:orientation="vertical">
 
     <TextView
+        android:visibility="gone"
+        tools:text="未下载"
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="未下载"
         android:textColor="#333333"
         android:textSize="@dimen/sp_18"
         android:textStyle="bold"/>
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/tvMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/dp_8"
-        android:text="未下载满分听说，是否下载?"
+        tools:text="未下载满分听说，是否下载?"
         android:textColor="#999999"
         android:textSize="@dimen/sp_15"/>
 
