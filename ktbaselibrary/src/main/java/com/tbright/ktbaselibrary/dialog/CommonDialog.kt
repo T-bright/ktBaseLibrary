@@ -72,13 +72,13 @@ open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layo
         super.show(result)
     }
 
-    fun showCommon(result: CommonDialog.() -> Unit) {
+    open fun showCommon(result: CommonDialog.() -> Unit) {
         if (!isUseDialogCommon) throw NullPointerException("please use function show()")
         this.show()
         this.result()
     }
 
-    var title: String = ""
+    open var title: String = ""
         set(value) {
             field = value
             try {
@@ -89,7 +89,7 @@ open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layo
             }
         }
 
-    var message: String = ""
+    open var message: String = ""
         set(value) {
             field = value
             try {
@@ -101,7 +101,7 @@ open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layo
         }
 
     //有几个按钮
-    var howMuchButton = 2
+    open var howMuchButton = 2
         set(value) {
             field = value
             try {
@@ -112,7 +112,7 @@ open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layo
             }
         }
 
-    fun positiveClickListener(isDismissDialog: Boolean = true, positive: () -> Unit) {
+    open fun positiveClickListener(isDismissDialog: Boolean = true, positive: () -> Unit) {
         try {
             tvConfirm.setOnClickListener {
                 positive.invoke()
@@ -127,7 +127,7 @@ open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layo
         }
     }
 
-    fun negativeClickListener(negative: () -> Unit) {
+    open fun negativeClickListener(negative: () -> Unit) {
         try {
             tvCancel.setOnClickListener {
                 negative.invoke()
