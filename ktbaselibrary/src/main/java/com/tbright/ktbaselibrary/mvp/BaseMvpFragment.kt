@@ -11,10 +11,10 @@ abstract class BaseMvpFragment<P : IPresenter> : BaseFragment(), BaseView {
     open var mPresenter: P? = null
 
     override fun onAttach(context: Context) {
-        super.onAttach(context)
         //mPresenter的初始化可以换成dagger
         mPresenter = ReflectUtils.getObject(this, 0)
         mPresenter?.onAttachView(this)
+        super.onAttach(context)
     }
 
     override fun onDestroy() {

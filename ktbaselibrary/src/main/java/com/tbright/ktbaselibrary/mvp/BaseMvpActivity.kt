@@ -10,9 +10,9 @@ abstract class BaseMvpActivity<P : IPresenter> : BaseActivity(), BaseView {
 
     open var mPresenter: P? = null
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         mPresenter = ReflectUtils.getObject(this, 0)
         mPresenter?.onAttachView(this)
+        super.onCreate(savedInstanceState)
     }
 
     override fun onDestroy() {
