@@ -16,8 +16,8 @@ abstract class BaseMvpActivity<P : IPresenter> : BaseActivity(), BaseView {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         mPresenter?.onDestroy()
+        super.onDestroy()
     }
 
     override fun onMessageEvent(messageEvent: MessageEvent<*>) {
@@ -36,13 +36,4 @@ abstract class BaseMvpActivity<P : IPresenter> : BaseActivity(), BaseView {
     override fun showError(errorMessage: String) {
         GlobalConfig.showUIProxy?.showError(errorMessage)
     }
-
-    override fun finishRefresh() {
-
-    }
-
-    override fun finishLoadMore(isLoaderAll: Boolean) {
-
-    }
-
 }

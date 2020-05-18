@@ -39,13 +39,4 @@ abstract class BaseMvpFragment<P : IPresenter> : BaseFragment(), BaseView {
         GlobalConfig.showUIProxy?.showError(errorMessage)
     }
 
-    override fun finishRefresh() {
-
-    }
-
-     override fun finishLoadMore(isLoaderAll: Boolean) {
-
-     }
-
-
  }

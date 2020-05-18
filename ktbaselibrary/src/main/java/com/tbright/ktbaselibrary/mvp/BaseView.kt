@@ -11,10 +11,4 @@ interface BaseView {
      */
     fun showError(errorMessage: String)
 
-    fun finishRefresh()
-
-    /**
-     * @param isLoaderAll:是否加载所有
-     */
-    fun finishLoadMore(isLoaderAll: Boolean = false)
 }

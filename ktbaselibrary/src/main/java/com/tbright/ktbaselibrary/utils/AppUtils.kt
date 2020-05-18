@@ -11,21 +11,24 @@ object AppUtils {
     private var lifecycleCallbacks = arrayListOf<ActivityLifecycleCallbacks>()
     fun init(application: Application, callback: ActivityLifecycleCallbacks? = null) {
         this.mApplication = application
-        application.registerActivityLifecycleCallbacks(activityLifecycleImpl)
-        lifecycleCallbacks.add(activityLifecycleImpl)
+        registerActivityLifecycleCallback(activityLifecycleImpl)
         callback?.let {
-            lifecycleCallbacks.add(it)
+            registerActivityLifecycleCallback(callback)
         }
     }
 
     fun registerActivityLifecycleCallback(callback: ActivityLifecycleCallbacks) {
-        mApplication?.registerActivityLifecycleCallbacks(callback)
-        lifecycleCallbacks.add(callback)
+        if(!lifecycleCallbacks.contains(callback)){
+            mApplication?.registerActivityLifecycleCallbacks(callback)
+            lifecycleCallbacks.add(callback)
+        }
     }
 
     fun unregisterActivityLifecycleCallback(callback: ActivityLifecycleCallbacks) {
-        mApplication?.unregisterActivityLifecycleCallbacks(callback)
-        lifecycleCallbacks.remove(callback)
+        if(lifecycleCallbacks.contains(callback)){
+            mApplication?.unregisterActivityLifecycleCallbacks(callback)
+            lifecycleCallbacks.remove(callback)
+        }
     }
 
     fun unregisterAllActivityLifecycleCallback() {
