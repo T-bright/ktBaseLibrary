@@ -13,7 +13,9 @@ const val MULTI_URL_HEADER = "${MULTI_URL_HEADER_KEY}: "
 /**
  * 多baseUrl的拦截器，当项目中用到多域名的时候，可以参考使用
  *
- * 使用时需要在Retrofit的接口方法上添加 headers
+ * 使用时需要在Retrofit的接口方法上添加 headers。这个headers是 httpConfigProxy?.baseUrls的key，通过key拿到需要替换的url。
+ *
+ * 之所以通过key来获取需要替换的url，因为release包和debug包的域名是不一样的，但是 httpConfigProxy?.baseUrls 的键是一样的。
  *
  */
 class MultiUrlInterceptor : Interceptor {
