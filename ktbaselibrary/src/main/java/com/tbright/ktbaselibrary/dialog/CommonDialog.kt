@@ -17,18 +17,6 @@ import java.lang.NullPointerException
 open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layout.dialog_common, @StyleRes style: Int = R.style.CommonDialog) :
     BaseCommonDialog(context, layoutIds, style) {
 
-    /**
-     * 是否使用的是 dialog_common 布局:
-     * 如果是：则最好使用 CommonDialog.showCommon(result: CommonDialog.() -> Unit) 方法，因为 kotlin-android-extensions 目前不支持 获取library中viewId。
-     * 如果不是：使用CommonDialog.show(result: (mContentView: View, dialog: AlertDialog) -> Unit)，此时可以直接通过 mContentView.ViewId来处理相应的逻辑
-     *
-     * @see CommonDialog.showCommon(result: CommonDialog.() -> Unit)
-     * @see CommonDialog.show(result: (mContentView: View, dialog: AlertDialog) -> Unit)
-     *
-     */
-    private var isUseDialogCommon = layoutId == R.layout.dialog_common
-
-
     override fun onCreating(savedInstanceState: Bundle?) {
         try {
             tvCancel?.setOnClickListener { dismiss() }
@@ -40,10 +28,10 @@ open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layo
 
     /**
      * 设置dialog宽度,这里设置是全屏。至于说，dialog距离屏幕两边有多少距离，这个在style中设置即可。
-     * 一般来说，每一个app都有一套设计标准，如：dialog距离屏幕两边有多少距离，这个都是全项目通用，直接在style中设置即可。
+     * 一般来说，每一个app都有一套设计标准，如：通用的提示dialog距离屏幕两边有多少距离，这个都是全项目通用，直接在style中设置即可。
      * 但是如果不一样，可以参考如下写法：
      *
-     *    CommonDialog(this).showCommon {
+     *    CommonDialog(this).show {
      *          window?.let {
      *                  var params = it.attributes
      *                  it.decorView?.setPadding(SizeUtils.dp2px(55f),0,SizeUtils.dp2px(55f),0)
@@ -55,29 +43,15 @@ open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layo
      *
      */
     override fun setDialogWidth() {
-        window?.let {
-            var params = it.attributes
-            params.width = WindowManager.LayoutParams.MATCH_PARENT
-            params.height = WindowManager.LayoutParams.WRAP_CONTENT
-            it.attributes = params
-        }
+        super.setDialogWidth()
     }
 
-    /**
-     * 因为 kotlin-android-extensions 目前不支持 获取library中viewId。所以，dialog_common 布局的viewId 在 外部是获取不到的，会报一个NullPointerException。
-     * 所以，如果使用的是 dialog_common 布局，需要使用 showCommon 方法来显示 dialog
-     */
-    override fun show(result: ((mContentView: View, dialog: AlertDialog) -> Unit)?) {
-        if (isUseDialogCommon) throw NullPointerException("please use function showCommon()")
-        super.show(result)
-    }
-
-    open fun showCommon(result: CommonDialog.() -> Unit) {
-        if (!isUseDialogCommon) throw NullPointerException("please use function show()")
+    open fun show(result: CommonDialog.() -> Unit){
         this.show()
         this.result()
     }
 
+    //dialog标题
     open var title: String = ""
         set(value) {
             field = value
@@ -89,6 +63,7 @@ open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layo
             }
         }
 
+    //dialog标题
     open var message: String = ""
         set(value) {
             field = value
@@ -112,6 +87,7 @@ open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layo
             }
         }
 
+    //确定按钮点击
     open fun positiveClickListener(isDismissDialog: Boolean = true, positive: () -> Unit) {
         try {
             tvConfirm.setOnClickListener {
@@ -127,6 +103,7 @@ open class CommonDialog(context: Context, @LayoutRes var layoutIds: Int = R.layo
         }
     }
 
+    //取消按钮点击
     open fun negativeClickListener(negative: () -> Unit) {
         try {
             tvCancel.setOnClickListener {

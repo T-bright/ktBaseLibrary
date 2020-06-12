@@ -9,12 +9,11 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AlertDialog
 import com.tbright.ktbaselibrary.R
+import com.tbright.ktbaselibrary.dialog.CommonDialog
 
 abstract class BaseCommonDialog constructor(context: Context, @LayoutRes var layoutId: Int, @StyleRes style: Int = R.style.CommonDialog) : AlertDialog(context, style) {
 
     var mContentView: View? = null
-
-    private var mResults: ((mContentView: View, dialog: AlertDialog) -> Unit)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,11 +21,6 @@ abstract class BaseCommonDialog constructor(context: Context, @LayoutRes var lay
         setContentView(mContentView!!)
         setDialogWidth()
         onCreating(savedInstanceState)
-        try {
-            mResults?.invoke(mContentView!!, this)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
     }
 
     abstract fun onCreating(savedInstanceState: Bundle?)
@@ -40,8 +34,4 @@ abstract class BaseCommonDialog constructor(context: Context, @LayoutRes var lay
         }
     }
 
-    open fun show(result: ((mContentView: View, dialog: AlertDialog) -> Unit)?) {
-        this.mResults = result
-        this.show()
-    }
 }

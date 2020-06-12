@@ -1,6 +1,5 @@
 package com.tbright.ktbaselibrary.base
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.annotation.ColorInt
 import androidx.annotation.IntRange
@@ -8,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.ColorUtils
 import com.blankj.utilcode.util.BarUtils
 import com.tbright.ktbaselibrary.event.MessageEvent
+import com.tbright.ktbaselibrary.global.GlobalConfig
 import com.tbright.ktbaselibrary.utils.ActivityUtils
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -15,8 +15,10 @@ import org.greenrobot.eventbus.ThreadMode
 
 abstract class BaseActivity : AppCompatActivity() {
 
-    //设置状态栏背景颜色。根据设置的颜色可以自动判断是 深色的背景和浅色的背景。可以在子类重写设置颜色
-    open var statusBarColor = Color.WHITE
+    /**
+     * 设置状态栏背景颜色。根据设置的颜色可以自动判断是 深色的背景和浅色的背景。可以在子类重写设置颜色
+     */
+    open var statusBarColor = GlobalConfig.statusBarColor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

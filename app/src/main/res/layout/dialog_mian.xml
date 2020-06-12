@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:paddingTop="@dimen/dp_27"
+    android:background="@drawable/dialog_common_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvMainMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_8"
+        tools:text="未下载满分听说，是否下载?"
+        android:textColor="#999999"
+        android:textSize="@dimen/sp_15"/>
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_1"
+        android:layout_marginTop="@dimen/dp_27"
+        android:background="#E5E5E5"/>
+
+
+
+    <TextView
+        android:id="@+id/tvMainIKnow"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:gravity="center"
+        android:text="知道了"
+        android:textColor="#333333"
+        android:textSize="@dimen/sp_18"/>
+
+</LinearLayout>
+
+
+

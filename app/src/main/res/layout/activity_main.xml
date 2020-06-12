@@ -33,15 +33,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button
-        android:id="@+id/btDownLoad"
-        android:text="下载框架的演示"
+        android:id="@+id/btDialog"
+        android:text="通用Dialog演示"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <Button
-        android:id="@+id/btCancelDownLoad"
-        android:text="取消一個下載"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+
     <TextView
         android:id="@+id/tvShow"
         android:gravity="center"

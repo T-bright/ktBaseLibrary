@@ -2,11 +2,13 @@ package com.tbright.ktbaseproject.demo.ui.fragment
 
 import android.Manifest
 import android.os.Bundle
+import com.tbright.ktbaselibrary.dialog.CommonDialog
 import com.tbright.ktbaselibrary.extension.gone
 import com.tbright.ktbaselibrary.mvp.BaseMvpFragment
 import com.tbright.ktbaselibrary.utils.permission.checkPermissions
 import com.tbright.ktbaseproject.demo.R
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog_mian.*
 
 class MainFragment : BaseMvpFragment<MainFragmentPresenter>() , MainFragmentContract.MainView {
 
@@ -30,7 +32,12 @@ class MainFragment : BaseMvpFragment<MainFragmentPresenter>() , MainFragmentCont
             mPresenter?.changeBaseUrl()
         }
         btPermission.setOnClickListener {
-            requestPer()
+//            requestPer()
+            CommonDialog(activity!!,R.layout.dialog_mian).show {
+                with(mContentView){
+                    tvMainMessage.text = "asdfsad阿的范德萨"
+                }
+            }
         }
     }
 
