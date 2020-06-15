@@ -1,6 +1,4 @@
 
-implementation 'com.tbright:ktbaselibrary:1.1.3'
-
 # ktBaseLibrary
 
 ktBaseLibrary是基于 MVP + Retrofit + 协程 的android快速开发框架。
@@ -41,6 +39,15 @@ dependencies {
    implementation 'com.tbright:ktbaselibrary:1.1.3'
 }
 ```
+在project的build.gradle中配置
+```
+allprojects {
+    repositories {
+        maven { url 'https://dl.bintray.com/tongsiwei49/ktbaselibrary/' }
+    }
+}
+```
+
 或者 下载到本地导入Module.
 
 ## 2、使用
