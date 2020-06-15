@@ -26,7 +26,7 @@ mainScope.launch {
 
 # 框架简介
 框架主体使用 ``kotlin + mvp + retrofit + 协程`` 的模式。另外引用了一些好用的第三方库以及自己封装的一些基础库。具体如下图：
-![image](https://gitee.com/T-bright/picture-save/raw/master/other/00000022.png)
+![image](https://github.com/T-bright/ktBaseLibrary/blob/master/pic/2.png?raw=true)
 
 # 如何使用
 ## 1、依赖
