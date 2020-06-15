@@ -18,6 +18,6 @@ interface MainContract {
     }
 
     interface MainView : BaseView{
-        fun loginResult(result : String)
+        fun showResult(result : String)
     }
 }

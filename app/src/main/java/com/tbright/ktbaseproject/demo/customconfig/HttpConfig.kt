@@ -21,12 +21,10 @@ import java.io.InterruptedIOException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
-import java.util.HashMap
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLHandshakeException
 
 
-const val RESPONSE_OK = "S00000000"
 
 const val UNAUTHORIZED = 401
 const val FORBIDDEN = 403
@@ -39,7 +37,6 @@ const val GATEWAY_TIMEOUT = 504
 
 const val EVENTCODE_RELOGIN = 998 //需要重新登录
 const val EVENTCODE_RESPONSE_FAIL = 999 //http请求失败
-
 
 const val BASE_URL = "base_Url"
 const val mBaseUrl = "https://api.apiopen.top/"

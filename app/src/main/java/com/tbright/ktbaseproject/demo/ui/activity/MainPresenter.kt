@@ -13,9 +13,9 @@ class MainPresenter : MainContract.MainPresenter() {
     override fun singlePoetry() {
         mView?.showLoading()
         mainScope.launch {
-            var singlePoetry = ApiServices.instance.singlePoetry().response()
-            singlePoetry?.let {
-                mView?.loginResult(it)
+            val singlePoetry = ApiServices.instance.singlePoetry().response()
+            if (singlePoetry != null) {
+                mView?.showResult(singlePoetry)
             }
             mView?.hideLoading()
         }
@@ -33,7 +33,7 @@ class MainPresenter : MainContract.MainPresenter() {
 
             var result = "${singlePoetry.await().toString()}------${musicList?.await()?.first()?.title}"
 
-            mView?.loginResult(result)
+            mView?.showResult(result)
 
             mView?.hideLoading()
         }
@@ -44,7 +44,7 @@ class MainPresenter : MainContract.MainPresenter() {
         mainScope.launch {
             var gank = GankServices.instance.getGanHuo().response()
             gank?.let {
-                mView?.loginResult(it.first().title!!)
+                mView?.showResult(it.first().title!!)
 
                 mView?.hideLoading()
             }

@@ -82,7 +82,7 @@ class MainActivity : BaseMvpActivity<MainPresenter>(),
         }
     }
 
-    override fun loginResult(result: String) {
+    override fun showResult(result: String) {
         tvShow.text = result
     }
 
