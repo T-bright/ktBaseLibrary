@@ -11,7 +11,7 @@ interface MainContract {
         abstract fun singlePoetry()
 
         //并行请求
-        abstract fun parallelRequest (username : String, password : String)
+        abstract fun parallelRequest ()
 
         //并行请求
         abstract fun changeBaseUrl ()

@@ -1,7 +1,6 @@
 package com.tbright.ktbaselibrary.net.interceptor
 
 import com.blankj.utilcode.util.NetworkUtils
-import com.tbright.ktbaselibrary.net.exception.NoNetworkException
 import okhttp3.CacheControl
 import okhttp3.Interceptor
 import okhttp3.Response

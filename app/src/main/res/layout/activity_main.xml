@@ -37,7 +37,11 @@
         android:text="通用Dialog演示"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
+    <Button
+        android:id="@+id/btBottomDialog"
+        android:text="通用Bottom_Dialog演示"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/tvShow"
         android:gravity="center"

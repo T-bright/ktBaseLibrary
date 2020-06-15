@@ -4,6 +4,7 @@ import com.tbright.ktbaselibrary.proxy.EventBusProxy
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
+//TODO 待完善。这个类的主要是为了动态替换EventBus类库。目前只能使用固定的
 object DefaultEventBusManager : EventBusProxy {
 
     private const val EVENT_BUS = "org.greenrobot.eventbus.EventBus"

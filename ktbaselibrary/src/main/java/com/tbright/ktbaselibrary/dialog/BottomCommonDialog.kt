@@ -4,17 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.FragmentManager
 import com.blankj.utilcode.util.ScreenUtils
-import com.blankj.utilcode.util.SizeUtils
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-open class BottomCommonDialog(val contentViewId: Int) : BottomSheetDialogFragment() {
+/**
+ * 从底部弹出的dialog。可动态设置高度
+ */
+open class BottomCommonDialog(@LayoutRes val contentViewId: Int) : BottomSheetDialogFragment() {
 
-    private var peekHeight = ScreenUtils.getScreenHeight() * 0.75f
+    // BottomSheetDialog的peek高度。默认是屏幕的3/4高度。单位px
+    private var mPeekHeight : Int = (ScreenUtils.getScreenHeight() * 0.75).toInt()
+
+    fun setPeekHeight(peekHeight : Int){
+        mPeekHeight = peekHeight
+    }
 
     protected open lateinit var mContentView: View
 
@@ -27,30 +35,30 @@ open class BottomCommonDialog(val contentViewId: Int) : BottomSheetDialogFragmen
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        setPeekHeight()
+    override fun onResume() {
+        super.onResume()
+        setDialogPeekHeight(mPeekHeight)
     }
 
-    open fun setPeekHeight() {
-        setPeekHeight(peekHeight)
-    }
-
-    open fun setPeekHeight(currentPeekHeight: Float) {
+    /**
+     * 默认是屏幕的3/4高度.
+     * @param currentPeekHeight : 高度。这个高度的单位是 px
+     */
+    private fun setDialogPeekHeight(currentPeekHeight: Int) {
         val view = view
-        view!!.post {
+        view?.post {
             val parent = view.parent as View
             val params = parent.layoutParams as CoordinatorLayout.LayoutParams
             val behavior = params.behavior
             val bottomSheetBehavior = behavior as BottomSheetBehavior<*>?
             val measureHeight = view.measuredHeight
             var bottomSheetHeight = ViewGroup.LayoutParams.WRAP_CONTENT
-            if (measureHeight < SizeUtils.dp2px(currentPeekHeight)) {
+            if (measureHeight < currentPeekHeight) {
                 bottomSheetBehavior!!.peekHeight = measureHeight
                 bottomSheetHeight = measureHeight
             } else {
-                bottomSheetBehavior!!.peekHeight = SizeUtils.dp2px(currentPeekHeight)
-                bottomSheetHeight = SizeUtils.dp2px(currentPeekHeight)
+                bottomSheetBehavior!!.peekHeight = currentPeekHeight
+                bottomSheetHeight = currentPeekHeight
             }
             val dialog = dialog as BottomSheetDialog
             if (dialog != null) {
@@ -61,17 +69,8 @@ open class BottomCommonDialog(val contentViewId: Int) : BottomSheetDialogFragmen
         }
     }
 
-
-    private var result: ((mContentView: View, dialog: BottomCommonDialog) -> Unit)? = null
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        result?.invoke(mContentView, this)
-    }
-
-    fun show(fragmentManager: FragmentManager, tag: String = "tag", result: ((mContentView: View, dialog: BottomCommonDialog) -> Unit)?) {
+    fun show(fragmentManager: FragmentManager, tag: String = "tag", result: BottomCommonDialog.() -> Unit?) {
         this.show(fragmentManager, tag)
-        this.result = result
+        this.result()
     }
 }

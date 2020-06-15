@@ -2,6 +2,9 @@ package com.tbright.ktbaselibrary.event
 
 import org.greenrobot.eventbus.EventBus
 
+/**
+ * 事件传递的包装类
+ */
 class MessageEvent<T> {
     var code: Int = 0
         private set

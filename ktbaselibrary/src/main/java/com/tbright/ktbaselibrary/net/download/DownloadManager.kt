@@ -2,7 +2,9 @@ package com.tbright.ktbaselibrary.net.download
 
 import java.io.File
 
-
+/**
+ * TODO 下载功能。目前还有bug。
+ */
 class DownloadManager {
     private val downloadQueue: DownloadQueue by lazy {
         DownloadQueue(downLoadEngine, maxDownloadCount)
