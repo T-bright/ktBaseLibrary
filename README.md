@@ -1,4 +1,5 @@
-[TOC]
+
+implementation 'com.tbright:ktbaselibrary:1.1.3'
 
 # ktBaseLibrary
 
