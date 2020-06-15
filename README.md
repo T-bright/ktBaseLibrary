@@ -1,3 +1,5 @@
+[TOC]
+
 # ktBaseLibrary
 
 ktBaseLibrary是基于 MVP + Retrofit + 协程 的android快速开发框架。
@@ -24,7 +26,6 @@ mainScope.launch {
 ```
 以上代码简洁，逻辑清晰。
 
-[TOC]
 
 # 框架简介
 框架主体使用 ``kotlin + mvp + retrofit + 协程`` 的模式。另外引用了一些好用的第三方库以及自己封装的一些基础库。具体如下图：
