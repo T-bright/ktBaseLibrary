@@ -24,7 +24,7 @@ open class BottomCommonDialog(@LayoutRes val contentViewId: Int) : BottomSheetDi
         mPeekHeight = peekHeight
     }
 
-    protected open lateinit var mContentView: View
+    open lateinit var mContentView: View
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (contentViewId != 0) {
