@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 
 /**
- *
+ * 内容观察者contentObserver的工具管理类
  */
 object ContentResolverManager {
 

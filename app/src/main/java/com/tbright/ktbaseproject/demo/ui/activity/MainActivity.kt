@@ -1,23 +1,21 @@
 package com.tbright.ktbaseproject.demo.ui.activity
 
 import android.Manifest
+import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.SizeUtils
 import com.tbright.ktbaselibrary.dialog.BottomCommonDialog
 import com.tbright.ktbaselibrary.dialog.CommonDialog
+import com.tbright.ktbaselibrary.extension.showToast
 import com.tbright.ktbaselibrary.mvp.BaseMvpActivity
-import com.tbright.ktbaselibrary.net.download.DownloadCallback
-import com.tbright.ktbaselibrary.net.download.DownloadManager
-import com.tbright.ktbaselibrary.net.download.DownloadTask
+import com.tbright.ktbaselibrary.utils.contentresolver.ContentObserverUri
+import com.tbright.ktbaselibrary.utils.contentresolver.ContentResolverManager
 import com.tbright.ktbaselibrary.utils.permission.checkPermissions
 import com.tbright.ktbaseproject.demo.R
+import com.tbright.ktbaseproject.demo.ui.TestProvider
 import com.tbright.ktbaseproject.demo.ui.fragment.MyFragmentActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.dialog_mian.*
-import java.io.File
-import java.lang.Exception
 
 
 class MainActivity : BaseMvpActivity<MainPresenter>(),
@@ -74,6 +72,31 @@ class MainActivity : BaseMvpActivity<MainPresenter>(),
                 setPeekHeight(SizeUtils.dp2px(250f))
             }
         }
+
+        //注册内容观察者
+        ContentResolverManager.register(this)
+        contentResolverManager.setOnClickListener {
+            //向内容提供者里面插入一条数据
+            contentResolver.insert(Uri.parse(TestProvider.TEST_URI),null)
+        }
+    }
+
+
+    //当观察的uri发生了变化，此方法会被触发
+    @ContentObserverUri(TestProvider.TEST_URI)//在注解上填写需要观察的uri
+    fun contentResolver(uri : String){
+        when(uri){
+            TestProvider.TEST_URI->{
+                var result = ""
+                var cursor = contentResolver.query(Uri.parse(TestProvider.TEST_URI),null,null,null,null)
+                if (cursor != null) {
+                    while (cursor.moveToNext()) {
+                        result = cursor.getString(0)
+                    }
+                }
+                result.showToast()
+            }
+        }
     }
 
     private fun requestPer() {
@@ -84,6 +107,11 @@ class MainActivity : BaseMvpActivity<MainPresenter>(),
 
     override fun showResult(result: String) {
         tvShow.text = result
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ContentResolverManager.unregister(this)
     }
 
 }

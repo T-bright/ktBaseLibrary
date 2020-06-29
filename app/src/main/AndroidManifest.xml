@@ -37,6 +37,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+        <provider
+            android:name=".ui.TestProvider"
+            android:authorities="com.tbright.ktbaseproject.demo"
+            android:exported="true" />
     </application>
 
 </manifest>

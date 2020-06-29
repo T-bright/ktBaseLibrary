@@ -42,6 +42,13 @@
         android:text="通用Bottom_Dialog演示"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/contentResolverManager"
+        android:text="封装的内容观察者工具类展示"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <TextView
         android:id="@+id/tvShow"
         android:gravity="center"
