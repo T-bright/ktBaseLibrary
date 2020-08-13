@@ -36,7 +36,7 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     open fun setStatusBarColor(@ColorInt color: Int, @IntRange(from = 0, to = 255) alpha: Int = 0, isLightMode: Boolean) {
-        BarUtils.setStatusBarColor(this, color, alpha, false)
+        BarUtils.setStatusBarColor(this, color,  false)
         BarUtils.setStatusBarLightMode(this, isLightMode)
     }
 

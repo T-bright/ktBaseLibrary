@@ -17,12 +17,12 @@ object GlobalConfig {
     //是否是debug包
     var isDebug = BuildConfig.DEBUG
 
-    //app的statusBar颜色
-    var statusBarColor = Color.WHITE
+    //app的statusBar颜色,默认透明的
+    var statusBarColor = Color.TRANSPARENT
     fun init(application: Application,
              httpConfigProxy: HttpConfigProxy,
              showUIProxy: ShowUIProxy,
-             statusBarColor : Int = Color.WHITE,
+             statusBarColor : Int = Color.TRANSPARENT,
              callback: Application.ActivityLifecycleCallbacks? = null) {
         this.httpConfigProxy = httpConfigProxy
         this.showUIProxy = showUIProxy
