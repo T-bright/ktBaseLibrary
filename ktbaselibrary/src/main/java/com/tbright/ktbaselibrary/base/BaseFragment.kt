@@ -27,6 +27,27 @@ abstract class BaseFragment : Fragment() {
         initData()
     }
 
+    //是不是第一次加载
+    private var isFirstLoad = true
+
+    override fun onResume() {
+        super.onResume()
+        if (isFirstLoad) {
+            lazyInitData()
+            isFirstLoad = false
+        }
+    }
+
+    /**
+     * 延迟加载。
+     * androidx 废弃掉了 setUserVisibleHint 方法。使用FragmentTransaction的setMaxLifecycle()来替代
+     * 使用viewpager 须使用 FragmentPagerAdapter(fragmentManager,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) 适配器。
+     * 注意：如果需要使用延迟加载，就用 lazyInitData 方法，不要与 initData 方法同时使用。initData 方法不具备延迟加载特性。
+     */
+    open fun lazyInitData() {
+
+    }
+
     abstract fun getLayoutId(): Int
 
     abstract fun initView(savedInstanceState: Bundle?)
